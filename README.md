@@ -100,12 +100,12 @@ Check if the given value is a boolean value.
 #### Example
 
 ```js
-globalHelpers.isNumber(true); // true
-globalHelpers.isNumber(false); // true
-globalHelpers.isNumber(!0); // true
-globalHelpers.isNumber(!1); // true
-globalHelpers.isNumber('true'); // false
-globalHelpers.isNumber('false'); // false
+globalHelpers.isBoolean(true); // true
+globalHelpers.isBoolean(false); // true
+globalHelpers.isBoolean(!0); // true
+globalHelpers.isBoolean(!1); // true
+globalHelpers.isBoolean('true'); // false
+globalHelpers.isBoolean('false'); // false
 ```
 
 ### globalHelpers.isEmail(email)
@@ -200,8 +200,8 @@ Verify if as objects is empty
 #### Example
 
 ```js
-isObjectEmpty({}); // true
-isObjectEmpty({foo: 'Foo'}); // false
+globalHelpers.isObjectEmpty({}); // true
+globalHelpers.isObjectEmpty({foo: 'Foo'}); // false
 ```
 
 ### globalHelpers.isPlainObject(value)
