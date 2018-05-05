@@ -5,7 +5,10 @@ import globalHelpers from './global-helpers.js';
 const toString = Object.prototype.toString;
 
 export default {
-    // is a given value Arguments?
+    /**
+     * is a given value Arguments?
+     * @category Validate
+     */
     isArguments(value) { // fallback check is for IE
         return toString.call(value) === '[object Arguments]' ||
             (value != null && typeof value === 'object' && 'callee' in value);
@@ -13,6 +16,8 @@ export default {
 
     /**
      * Check if the given value is an array.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a string, else 'false'.
      */
@@ -26,6 +31,8 @@ export default {
 
     /**
      * Check if the given value is a boolean value.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a string, else 'false'.
      */
@@ -33,23 +40,37 @@ export default {
         return value === true || value === false || toString.call(value) === '[object Boolean]';
     },
 
-    // is a given value Char?
+    /**
+     * is a given value Char?
+     *
+     * @category Validate
+     */
     isChar(value) {
         return this.isString(value) && value.length === 1;
     },
 
-    // is a given value Date Object?
+    /**
+     * is a given value Date Object?
+     *
+     * @category Validate
+     */
     isDate(value) {
         return toString.call(value) === '[object Date]';
     },
 
-    // is a given object a DOM node?
+    /**
+     * is a given object a DOM node?
+     *
+     * @category Validate
+     */
     isDomNode(object) {
         return this.isObject(object) && object.nodeType > 0;
     },
 
     /**
      * Check if a string is a valid mail.
+     *
+     * @category Validate
      * @param {string} email - The string to check
      * @return {boolean}
      */
@@ -59,7 +80,11 @@ export default {
         return regex.test(email);
     },
 
-    // is a given value empty? Objects, arrays, strings
+    /**
+     * is a given value empty? Objects, arrays, strings
+     *
+     * @category Validate
+     */
     isEmpty(variable) {
         const emptyVariables = {
             'undefined': true,
@@ -96,13 +121,19 @@ export default {
         return boolReturn;
     },
 
-    // is a given value Error object?
+    /**
+     * is a given value Error object?
+     *
+     * @category Validate
+     */
     isError(value) {
         return toString.call(value) === '[object Error]';
     },
 
     /**
      * Check if the given value is a function.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a function, else 'false'.
      */
@@ -112,6 +143,8 @@ export default {
 
     /**
      * Check if a string is a valid JSON.
+     *
+     * @category Validate
      * @param {string} str - The string to check
      * @return {boolean}
      */
@@ -124,13 +157,19 @@ export default {
         return false;
     },
 
-    // is a given value null?
+    /**
+     * is a given value null?
+     *
+     * @category Validate
+     */
     isNull(value) {
         return value === null;
     },
 
     /**
      * Check if the given value is a number.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a number, else 'false'.
      */
@@ -142,6 +181,8 @@ export default {
 
     /**
      * Check if the given value is an object
+     *
+     * @category Validate
      * @param {*} value - The value to check
      * @return {boolean} Returns 'true' if the given value is an object, else 'false'
      */
@@ -151,6 +192,8 @@ export default {
 
     /**
      * Verify if as objects is empty
+     *
+     * @category Validate
      * @param {object} obj - The object to verify
      * @return {boolean}
      * @example
@@ -172,6 +215,8 @@ export default {
 
     /**
      * Check if the given value is a plain object.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a plain object, else 'false'.
      */
@@ -190,12 +235,20 @@ export default {
         }
     },
 
-    // is a given value RegExp?
+    /**
+     * is a given value RegExp?
+     *
+     * @category Validate
+     */
     isRegexp(value) {
         return toString.call(value) === '[object RegExp]';
     },
 
-    // are given values same type?
+    /**
+     * are given values same type?
+     *
+     * @category Validate
+     */
     isSameType(value, other) {
         const tag = toString.call(value);
 
@@ -208,6 +261,8 @@ export default {
 
     /**
      * Check if the given value is a string.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is a string, else 'false'.
      */
@@ -217,6 +272,8 @@ export default {
 
     /**
      * Check if the given value is undefined.
+     *
+     * @category Validate
      * @param {*} value - The value to check.
      * @return {boolean} Returns 'true' if the given value is undefined, else 'false'.
      */

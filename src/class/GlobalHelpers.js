@@ -1,6 +1,9 @@
 
-import validateHelpers from './../utils/validate-helpers.js';
+import arrayHelpers from './../utils/array-helpers.js';
 import globalHelpers from './../utils/global-helpers.js';
+import objectHelpers from './../utils/object-helpers.js';
+import stringHelpers from './../utils/string-helpers.js';
+import validateHelpers from './../utils/validate-helpers.js';
 
 /**
  * Create a GlobalHelpers class
@@ -94,27 +97,27 @@ class GlobalHelpers {
      * Global Methods
      */
     arrayCompact(arr) {
-        return globalHelpers.arrayCompact(arr);
+        return arrayHelpers.arrayCompact(arr);
     }
 
     arrayIntersection(arr1, arr2) {
-        return globalHelpers.arrayIntersection(arr1, arr2);
+        return arrayHelpers.arrayIntersection(arr1, arr2);
     }
 
     arrayUnique(arr) {
-        return globalHelpers.arrayUnique(arr);
+        return arrayHelpers.arrayUnique(arr);
     }
 
     capitalize(str) {
-        return globalHelpers.capitalize(str);
+        return stringHelpers.capitalize(str);
     }
 
     chunk(array, size) {
-        return globalHelpers.chunk(array, size);
+        return arrayHelpers.chunk(array, size);
     }
 
     cleanArray(array) {
-        return globalHelpers.cleanArray(array);
+        return arrayHelpers.cleanArray(array);
     }
 
     contains(value, elem) {
@@ -126,11 +129,11 @@ class GlobalHelpers {
     }
 
     escape(str) {
-        return globalHelpers.escape(str);
+        return stringHelpers.escape(str);
     }
 
     extend(obj, ...args) {
-        return globalHelpers.extend(obj, ...args);
+        return objectHelpers.extend(obj, ...args);
     }
 
     getType(variable) {
@@ -142,23 +145,23 @@ class GlobalHelpers {
     }
 
     implode(pieces, glue) {
-        return globalHelpers.implode(pieces, glue);
+        return arrayHelpers.implode(pieces, glue);
     }
 
     length(item) {
-        return globalHelpers.length(item);
+        return objectHelpers.length(item);
     }
 
     objectSearch(object, needle) {
-        return globalHelpers.objectSearch(object, needle);
+        return objectHelpers.objectSearch(object, needle);
     }
 
     pad(number, size) {
-        return globalHelpers.pad(number, size);
+        return stringHelpers.pad(number, size);
     }
 
     removeAccent(str) {
-        return globalHelpers.removeAccent(str);
+        return stringHelpers.removeAccent(str);
     }
 
     resizeImageByRatio(type, newValue, aspectRatio) {
@@ -166,11 +169,11 @@ class GlobalHelpers {
     }
 
     shuffleArray(array) {
-        return globalHelpers.shuffleArray(array);
+        return arrayHelpers.shuffleArray(array);
     }
 
     slugifyText(str) {
-        return globalHelpers.slugifyText(str);
+        return stringHelpers.slugifyText(str);
     }
 
     stripHost(url) {
@@ -182,7 +185,7 @@ class GlobalHelpers {
     }
 
     strReplace(search, replace, subject) {
-        return globalHelpers.strReplace(search, replace, subject);
+        return stringHelpers.strReplace(search, replace, subject);
     }
 
     throttle(func, wait, options) {
@@ -198,11 +201,11 @@ class GlobalHelpers {
     }
 
     trim(str) {
-        return globalHelpers.trim(str);
+        return stringHelpers.trim(str);
     }
 
     unescape(str) {
-        return globalHelpers.unescape(str);
+        return stringHelpers.unescape(str);
     }
 
     unserialize(str) {

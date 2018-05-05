@@ -1,6 +1,7 @@
 
-import globalHelpers from './global-helpers.js';
 import validateHelpers from './validate-helpers.js';
+import stringHelpers from './string-helpers.js';
+import objectHelpers from './object-helpers.js';
 
 const CONSTANTS = {
     STORAGE_NAME: '__location',
@@ -101,7 +102,7 @@ export default {
         for ( let region in this._regionMap ) {
             if ( {}.hasOwnProperty.call(this._regionMap, region) ) {
                 this._regionMap[region].some((el, i, arr) => {
-                    if ( globalHelpers.removeAccent(el.toLowerCase()) === globalHelpers.removeAccent(state.toLowerCase()) ) {
+                    if ( stringHelpers.removeAccent(el.toLowerCase()) === stringHelpers.removeAccent(state.toLowerCase()) ) {
                         filteredRegion = region;
                     }
                 });
@@ -122,7 +123,7 @@ export default {
     filteredState(state) {
         this._validateStateInitials(state);
 
-        return globalHelpers.objectSearch(this._stateMap, {initials: state.toUpperCase()});
+        return objectHelpers.objectSearch(this._stateMap, {initials: state.toUpperCase()});
     },
 
     getStates() {

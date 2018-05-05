@@ -3,108 +3,9 @@ import validateHelpers from './validate-helpers.js';
 
 export default {
     /**
-     * Remove all falsey values from an array.
-     *
-     * @param {Array} arr - Array to filter
-     * @example
-     *     arrayCompact([null, a, undefined, 0, false, b, c, '', true]); // [a, b, c, true]
-     */
-    arrayCompact(arr) {
-        if ( !Array.isArray(arr) ) {
-            throw new TypeError('arrayCompact() expects an array.');
-        }
-
-        return arr.filter(Boolean);
-    },
-
-    /**
-     * Returns a new array containing the intersection between two arrays given.
-     *
-     * @param {Array} arr1 First array
-     * @param {Array} arr2 Second array
-     * @return {Array} The intersection
-     * @example
-     *     arrayIntersection([1, 2, 3], [2, 3, 4]) // [2, 3]
-     */
-    arrayIntersection(arr1, arr2) {
-        return arr1.filter((val) => arr2.indexOf(val) !== -1);
-    },
-
-    /**
-     * Return an array with unique values
-     * @param {Array} arr - The array
-     * @return {Array}
-     */
-    arrayUnique(arr) {
-        return arr.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-        });
-    },
-
-    /**
-     * Capitalize a string
-     * @param {string} str - The String
-     * @return {string} The modified string
-     * @example
-     *     capitalize('foo bar'); // 'Foo Bar'
-     */
-    capitalize(str) {
-        return str.replace(/(?:^|\s)\S/g, (match) => {
-            return match.toUpperCase();
-        });
-    },
-
-    /**
-     * Creates an array of elements split into groups the length of size.
-     * If array can't be split evenly, the final chunk will be the remaining elements.
-     * @param  {Array}    array      The array to proccess.
-     * @param  {Integer}  [size=1]   The length of each chunk.
-     * @return {Array}               Returns the new array of chunks.
-     * @example
-     *     chunk(['a', 'b', 'c', 'd'], 2)
-     *     // => [['a', 'b'], ['c', 'd']]
-     *
-     *     chunk(['a', 'b', 'c', 'd'], 3)
-     *     // => [['a', 'b', 'c'], ['d']]
-     */
-    chunk(array, size) {
-        size = Math.max(size, 0);
-        const length = array === null ? 0 : array.length;
-
-        if ( ! length || size < 1 ) {
-            return [];
-        }
-
-        let index = 0;
-        let resIndex = 0;
-        const result = new Array(Math.ceil(length / size));
-
-        while ( index < length ) {
-            result[resIndex++] = this.slice(array, index, (index += size));
-        }
-
-        return result;
-    },
-
-    /**
-     * Removes empty index from a array
-     * @param {Array} arr - The array
-     * @return {Array}
-     */
-    cleanArray(array) {
-        let newArray = [];
-
-        for ( let i = 0, len = array.length; i < len; i += 1 ) {
-            if ( array[i] ) {
-                newArray.push(array[i]);
-            }
-        }
-
-        return newArray;
-    },
-
-    /**
      * Check if value contains in an element
+     *
+     * @category Global
      * @param {String} value - Value to check
      * @param {String|Array} elem - String or array
      * @return {Boolean} - Return true if element contains a value
@@ -150,8 +51,9 @@ export default {
      * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
      * for details over the differences between `debounce` and `throttle`.
      *
-     * From Lodash
+     * @from Lodash
      *
+     * @category Global
      * @param {Function} func The function to debounce.
      * @param {number} [wait=0] The number of milliseconds to delay; if omitted, `requestAnimationFrame` is used (if available).
      * @param {Object} [options={}] The options object.
@@ -337,47 +239,9 @@ export default {
     },
 
     /**
-     * Replace <, >, &, ', " and / with HTML entities.
-     * @param {string} str - The string to check
-     * @return {boolean}
-     */
-    escape(str) {
-        return (str.replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#x27;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/\//g, '&#x2F;')
-            .replace(/\\/g, '&#x5C;')
-            .replace(/`/g, '&#96;'));
-    },
-
-    /**
-     * Extend the given object
-     * @param {object} obj - The object to be extended
-     * @param {*} args - The rest objects which will be merged to the first object
-     * @return {object} The extended object
-     */
-    extend(obj, ...args) {
-        if ( validateHelpers.isObject(obj) && args.length > 0 ) {
-            if ( Object.assign ) {
-                return Object.assign(obj, ...args);
-            }
-
-            args.forEach((arg) => {
-                if ( validateHelpers.isObject(arg) ) {
-                    Object.keys(arg).forEach((key) => {
-                        obj[key] = arg[key];
-                    });
-                }
-            });
-        }
-
-        return obj;
-    },
-
-    /**
      * Get variable type
+     *
+     * @category Global
      * @param {Mix} variable - Variable to check type
      * @return {string} Name of variable type
      * @example
@@ -404,6 +268,8 @@ export default {
 
     /**
      * Get url params from a query string
+     *
+     * @category Global
      * @param {string} name - Param name
      * @param {string} entryPoint - Full url or query string
      * @return {string} Value query string param
@@ -428,145 +294,9 @@ export default {
     },
 
     /**
-     * Join array elements with glue string - PHP implode alike
-     * @param {object|array} pieces - The array|object to implode.  If object it will implode the values, not the keys.
-     * @param {string} [glue=','] - The glue
-     * @return {string} The imploded array|object
-     * @example
-     *     implode(['Foo', 'Bar']); // 'Foo,Bar'
-     */
-    implode(pieces, glue) {
-        if ( validateHelpers.isArray(pieces) ) {
-            return pieces.join(glue || ',');
-        } else if ( validateHelpers.isObject(pieces) ) {
-            let arr = [];
-            for ( let o in pieces ) {
-                if ( object.hasOwnProperty(o) ) {
-                    arr.push(pieces[o]);
-                }
-            }
-
-            return arr.join(glue || ',');
-        }
-
-        return '';
-    },
-
-    /**
-     * Return the length of an item (Object mostly)
-     * @param {mixed}
-     * @return {int}
-     */
-    length(item) {
-        if ( ! validateHelpers.isUndefined(item.length) ) {
-            return item.length;
-        }
-
-        if ( validateHelpers.isObject(item) ) {
-            return Object.keys(item).length;
-        }
-
-        return 0;
-    },
-
-    /**
-     * Search through an object recursively and return the first match of the key:value passed
-     * @access public
-     * @param {Object} object - The haystack
-     * @param {Object} needle - Key value pair that will be searched
-     * @return {Object}
-     * @example
-     *     var data = [{
-     *         id: 0,
-     *         name: 'key 0',
-     *         children: [{
-     *             id: 1,
-     *             name: 'key 1',
-     *             children: [{
-     *                 id: 2,
-     *                 name: 'key 2',
-     *                 item: [{
-     *                     id: 3,
-     *                     name: 'key 3'
-     *                 }],
-     *                 item: [{
-     *                     id: 4,
-     *                     name: 'key 4'
-     *                 }]
-     *             }]
-     *         }]
-     *     }];
-     *     objectSearch(data, {id: 4}); // { id: 4, name: 'key 4'};
-     */
-    objectSearch(object, needle) {
-        let p;
-        let key;
-        let val;
-        let tRet;
-
-        for ( p in needle ) {
-            if ( needle.hasOwnProperty(p) ) {
-                key = p;
-                val = needle[p];
-            }
-        }
-
-        for ( p in object ) {
-            if ( p === key ) {
-                if ( object[p] === val ) {
-                    return object;
-                }
-            } else if ( object[p] instanceof Object ) {
-                if ( object.hasOwnProperty(p) ) {
-                    tRet = this.objectSearch(object[p], needle);
-                    if ( tRet ) {
-                        return tRet;
-                    }
-                }
-            }
-        }
-
-        return false;
-    },
-
-    /**
-     * Zero padding number
-     *
-     * @param  {integer} number     Number to format
-     * @param  {integer} [size=2]   Digits limit
-     * @return {string}             Formatted num with zero padding
-     */
-    pad(number, size) {
-        let stringNum = String(number);
-
-        while (stringNum.length < (size || 2)) {
-            stringNum = '0' + stringNum;
-        }
-
-        return stringNum;
-    },
-
-    /**
-     * Remove accents from a string
-     * @param {string} str - The string to remove accents
-     * @return {string} The modified string
-     * @example
-     *     removeAccent('Olá Mündô!'); // 'Ola Mundo!'
-     */
-    removeAccent(str) {
-        const reAccents = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
-
-        // Prefixed with some char to avoid off-by-one:
-        const replacements = '_aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
-
-        return str.replace(reAccents, (match) => {
-            return replacements[reAccents.source.indexOf(match)];
-        });
-    },
-
-    /**
      * Resize image by aspect ratio
      *
+     * @category Global
      * @param  {String} type          Resize by 'width' or 'height'
      * @param  {Number} newSize       New value to resize
      * @param  {Number} aspectRatio   Image aspect ratio (calculate by (width / height))
@@ -601,108 +331,9 @@ export default {
     },
 
     /**
-     * Randomize a array elements with Fisher–Yates shuffle algorithm base
-     * @param {array} array - The array to randomize
-     * @return {array} The new modified array
-     * @example
-     *     const arr = [1, 2, 3, 4];
-     *     shuffleArray(arr); // [3, 2, 4, 1]
-     */
-    shuffleArray(array) {
-        let j = 0;
-        let temp = [];
-        let newArray = [];
-
-        for ( let i = array.length - 1; i > 0; i-- ) {
-            j = Math.floor(Math.random() * (i + 1));
-            temp = array[i];
-
-            newArray[i] = array[j];
-            newArray[j] = temp;
-        }
-
-        return newArray;
-    },
-
-    /**
-     * Creates a slice of `array` from `start` up to, but not including, `end`.
-     *
-     * **Note:** This method is used instead of
-     * [`Array#slice`](https://mdn.io/Array/slice) to ensure dense arrays are returned.
-     *
-     * From Lodash
-     *
-     * @param {Array} array The array to slice.
-     * @param {number} [start=0] The start position. A negative index will be treated as an offset from the end.
-     * @param {number} [end=array.length] The end position. A negative index will be treated as an offset from the end.
-     * @returns {Array} Returns the slice of `array`.
-     */
-    slice(array, start, end) {
-        let length = array == null ? 0 : array.length;
-
-        if ( ! length ) {
-            return [];
-        }
-        start = start == null ? 0 : start;
-        end = end === undefined ? length : end;
-
-        if ( start < 0 ) {
-            start = -start > length ? 0 : (length + start);
-        }
-
-        end = end > length ? length : end;
-
-        if ( end < 0 ) {
-            end += length;
-        }
-
-        length = start > end ? 0 : ((end - start) >>> 0);
-        start >>>= 0;
-
-        let index = -1;
-        const result = new Array(length);
-
-        while ( ++index < length ) {
-            result[index] = array[index + start];
-        }
-
-        return result;
-    },
-
-    /**
-     * Slugify a text, removing/replacing all special characters and spaces with dashes '-'
-     * @param {string} str - The string to sanitize
-     * @return {string} The modified string
-     * @example
-     *     slugifyText('Olá Mundo!'); // 'ola-mundo'
-     */
-    slugifyText(str) {
-        str = str.replace(/^\s+|\s+$/g, '') // trim
-            .toLowerCase()
-            .replace(/\./g, '-') // Replace a dot for a -
-            .replace(/\*/g, '-') // Replace a * for a -
-            .replace(/\+/g, '-'); // Replace a + for a -
-
-        // Remove accents, swap ñ for n, etc
-        const from = 'àáäâãèéëêìíïîòóöôõùúüûýÿñç·/_,:;';
-        const to = 'aaaaaeeeeiiiiooooouuuuyync------';
-
-        for ( let i = 0, len = from.length; i < len; i += 1 ) {
-            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-        }
-
-        str = str.replace(/[^a-z0-9 -]/g, '') // Remove invalid chars
-            .replace(/\s+/g, '-') // Collapse whitespace and replace by -
-            .replace(/-+/g, '-'); // Collapse dashes
-
-        if ( str.charAt(0) === '-') str = str.substr(1);
-        if ( str.charAt(str.length - 1) === '-') str = str.substr(0, str.length - 1);
-
-        return str;
-    },
-
-    /**
      * Removes the host from an url
+     *
+     * @category Global
      * @param {string} url - The url
      * @return {string} The modified string
      * @example
@@ -715,6 +346,8 @@ export default {
 
     /**
      * Removes the protocol from an url
+     *
+     * @category Global
      * @param {string} url - The url
      * @return {string} The modified string
      * @example
@@ -723,36 +356,6 @@ export default {
     stripHttp(url) {
         let newUrl = url;
         return newUrl.replace(/^https?:/, '');
-    },
-
-    /**
-     * Multiple string replace, PHP str_replace clone
-     * @param {string|Array} search - The value being searched for, otherwise known as the needle.
-     *     An array may be used to designate multiple needles.
-     * @param {string|Array} replace - The replacement value that replaces found search values.
-     *     An array may be used to designate multiple replacements.
-     * @param {string} subject - The subject of the replacement
-     * @return {string} The modified string
-     * @example
-     *     strReplace(['olá', 'mundo'], ['hello', 'world'], 'olá mundo'); // 'hello world'
-     *     strReplace(['um', 'dois'], 'olá', 'um dois três'); // Output 'olá olá três'
-     */
-    strReplace(search, replace, subject) {
-        let regex;
-
-        if ( validateHelpers.isArray(search) ) {
-            for ( let i = 0; i < search.length; i++ ) {
-                search[i] = search[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-                regex = new RegExp(search[i], 'g');
-                subject = subject.replace(regex, (validateHelpers.isArray(replace) ? replace[i] : replace));
-            }
-        } else {
-            search = search.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-            regex = new RegExp(search, 'g');
-            subject = subject.replace(regex, (validateHelpers.isArray(replace) ? replace[0] : replace));
-        }
-
-        return subject;
     },
 
     /**
@@ -779,8 +382,8 @@ export default {
      * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
      * for details over the differences between `throttle` and `debounce`.
      *
-     * From Lodash
-     *
+     * @from Lodash
+     * @category Global
      * @param {Function} func The function to throttle.
      * @param {number} [wait=0] The number of milliseconds to throttle invocations to; if omitted, `requestAnimationFrame` is used (if available).
      * @param {Object} [options={}] The options object.
@@ -822,8 +425,8 @@ export default {
      * Invokes the iteratee `n` times, returning an array of the results of
      * each invocation. The iteratee is invoked with one argumentindex).
      *
-     * From Lodash
-     *
+     * @from Lodash
+     * @category Global
      * @param {number} n The number of times to invoke `iteratee`.
      * @param {Function} iteratee The function invoked per iteration.
      * @returns {Array} Returns the array of results.
@@ -865,6 +468,7 @@ export default {
     /**
      * Converts a value to a number if possible.
      *
+     * @category Global
      * @param {Mix} value The value to convert.
      * @returns {Number} The converted number, otherwise the original value.
      * @example
@@ -885,39 +489,9 @@ export default {
     },
 
     /**
-     * Remove leading and trailing empty spaces.
+     * Unserialize a query string into an object.
      *
-     * @param {String} str - The string.
-     * @returns {String} The new string.
-     * @example
-     *     trim('  Foo  ') // 'Foo'
-     */
-    trim(str) {
-        if ( validateHelpers.isString(str) ) {
-            return str.replace(/^\s+|\s+$/gm, '');
-        }
-
-        return '';
-    },
-
-    /**
-     * Replaces HTML encoded entities with <, >, &, ', " and /.
-     * @param {string} str - The string to check
-     * @return {boolean}
-     */
-    unescape(str) {
-        return (str.replace(/&amp;/g, '&')
-            .replace(/&quot;/g, '"')
-            .replace(/&#x27;/g, '\'')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&#x2F;/g, '/')
-            .replace(/&#x5C;/g, '\\')
-            .replace(/&#96;/g, '`'));
-    },
-
-    /**
-     * Unserialize a query string into an object
+     * @category Global
      * @param {string} [str = actual url] - The string that will be converted into a object
      * @return {object}
      * @example
