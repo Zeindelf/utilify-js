@@ -58,11 +58,11 @@ import Utilify from 'utilify-js';
 
 ### Usage
 
-With UMD (Universal Module Definition), the package is available on global var `Utility`.
+With UMD (Universal Module Definition), the package is available on global var `UtilityJS`.
 
 ```js
 // Initialize constructor
-var utilify = new Utilify();
+var utilify = new UtilifyJS();
 
 // GlobalHelpers
 var globalHelpers = utilify.globalHelpers;

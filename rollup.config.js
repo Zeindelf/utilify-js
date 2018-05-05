@@ -24,7 +24,7 @@ module.exports = {
             banner: banner,
             file: 'dist/utilify.js',
             format: 'umd',
-            name: 'Utilify',
+            name: 'UtilifyJS',
         },
         {
             banner: banner,
