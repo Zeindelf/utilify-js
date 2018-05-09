@@ -21,6 +21,10 @@ class GlobalHelpers {
         return validateHelpers.isArray(value);
     }
 
+    isArrayIndex(n) {
+        return validateHelpers.isArrayIndex(n);
+    }
+
     isBoolean(value) {
         return validateHelpers.isBoolean(value);
     }
@@ -73,6 +77,14 @@ class GlobalHelpers {
         return validateHelpers.isObjectEmpty(obj);
     }
 
+    isPrimitive(obj, type) {
+        return validateHelpers.isPrimitive(obj, type);
+    }
+
+    isRealNaN(obj) {
+        return validateHelpers.isRealNaN(obj);
+    }
+
     isPlainObject(value) {
         return validateHelpers.isPlainObject(value);
     }
@@ -100,8 +112,16 @@ class GlobalHelpers {
         return arrayHelpers.arrayCompact(arr);
     }
 
+    arrayFlatten(arr, level) {
+        return arrayHelpers.arrayFlatten(arr, level);
+    }
+
     arrayIntersection(arr1, arr2) {
         return arrayHelpers.arrayIntersection(arr1, arr2);
+    }
+
+    arraySample(arr, arg1, arg2) {
+        return arrayHelpers.arraySample(arr, arg1, arg2);
     }
 
     arrayUnique(arr) {

@@ -3,6 +3,22 @@ import validateHelpers from './validate-helpers.js';
 
 export default {
     /**
+     * Creates a shallow clone of the array.
+     *
+     * @param  {Array} arr Array to clone
+     * @return {Array}     Array cloned
+     */
+    arrayClone(arr) {
+        let clone = new Array(arr.length);
+
+        this._forEach(arr, (el, i) => {
+            clone[i] = el;
+        });
+
+        return clone;
+    },
+
+    /**
      * Remove all falsey values from an array.
      *
      * @category Array
@@ -19,6 +35,30 @@ export default {
     },
 
     /**
+     * Returns a flattened, one-dimensional copy of the array.
+     * You can optionally specify a limit, which will only flatten to that depth.
+     *
+     * @param  {Array}   arr              Array to flatten
+     * @param  {Integer} level[Infinity]  Depth
+     * @return {Array}
+     */
+    arrayFlatten(arr, level) {
+        const self = this;
+        let result = [];
+        let current = 0;
+        level = level || Infinity;
+
+        self._forEach(arr, (el) => {
+            if ( validateHelpers.isArray(el) && current < level ) {
+                result = result.concat(self.arrayFlatten(el, level, current + 1));
+            } else {
+                result.push(el);
+            }
+        });
+        return result;
+    },
+
+    /**
      * Returns a new array containing the intersection between two arrays given.
      *
      * @category Array
@@ -30,6 +70,50 @@ export default {
      */
     arrayIntersection(arr1, arr2) {
         return arr1.filter((val) => arr2.indexOf(val) !== -1);
+    },
+
+    /**
+     * Returns a random element from the array.
+     * If num is passed, will return an array of num elements.
+     * If remove is true, sampled elements will also be removed from the array.
+     * remove can also be passed in place of num.
+     *
+     * @param  {Array} [arr]  Array to sample
+     * @param  {Integer|Boolean} [num=1]    Num of elements
+     * @param  {Boolean} [remove=false]     Remove sampled elements
+     * @return {String|Array}
+     */
+    arraySample(arr, num, remove) {
+        let result = [];
+        let _num;
+        let _remove;
+        let single;
+
+        if ( validateHelpers.isBoolean(num) ) {
+            _remove = num;
+        } else {
+            _num = num;
+            _remove = remove;
+        }
+
+        if ( validateHelpers.isUndefined(_num) ) {
+            _num = 1;
+            single = true;
+        }
+
+        if ( !_remove ) {
+            arr = this.arrayClone(arr);
+        }
+
+        _num = Math.min(_num, arr.length);
+
+        for ( let i = 0, index; i < _num; i += 1 ) {
+            index = Math.trunc(Math.random() * arr.length);
+            result.push(arr[index]);
+            arr.splice(index, 1);
+        }
+
+        return single ? result[0] : result;
     },
 
     /**
@@ -195,5 +279,55 @@ export default {
         }
 
         return result;
+    },
+
+    // PRIVATE
+    _getSparseArrayIndexes(arr, fromIndex, loop, fromRight) {
+        let indexes = []
+        let i;
+
+        for ( i in arr ) {
+            // Istanbul ignore next
+            if ( validateHelpers.isArrayIndex(i) && (loop || (fromRight ? i <= fromIndex : i >= fromIndex)) ) {
+                indexes.push(+i);
+            }
+        }
+
+        indexes.sort((a, b) => {
+            const aLoop = a > fromIndex;
+            const bLoop = b > fromIndex;
+
+            // This block cannot be reached unless ES5 methods are being shimmed.
+            // istanbul ignore if
+            if ( aLoop !== bLoop ) {
+                return aLoop ? -1 : 1;
+            }
+
+            return a - b;
+        });
+
+        return indexes;
+    },
+
+    _iterateOverSparseArray(arr, fn, fromIndex, loop) {
+        const indexes = this._getSparseArrayIndexes(arr, fromIndex, loop);
+        let index;
+
+        for ( let i = 0, len = indexes.length; i < len; i += 1 ) {
+            index = indexes[i];
+            fn.call(arr, arr[index], index, arr);
+        }
+
+        return arr;
+    },
+
+    _forEach(arr, fn) {
+        for ( let i = 0, len = arr.length; i < len; i += 1 ) {
+            if ( !(i in arr) ) {
+                return this._iterateOverSparseArray(arr, fn, i);
+            }
+
+            fn(arr[i], i);
+        }
     },
 };

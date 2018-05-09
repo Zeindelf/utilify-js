@@ -29,6 +29,10 @@ export default {
         return toString.call(value) === '[object Array]';
     },
 
+    isArrayIndex(n) {
+        return n >>> 0 === n && n !== 0xFFFFFFFF;
+    },
+
     /**
      * Check if the given value is a boolean value.
      *
@@ -233,6 +237,17 @@ export default {
         } catch (e) {
             return false;
         }
+    },
+
+    isPrimitive(obj, type) {
+        type = type || typeof obj;
+
+        return obj == null || type === 'string' || type === 'number' || type === 'boolean';
+    },
+
+    isRealNaN(obj) {
+        // This is only true of NaN
+        return obj != null && obj !== obj;
     },
 
     /**
