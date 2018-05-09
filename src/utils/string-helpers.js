@@ -99,6 +99,20 @@ export default {
     },
 
     /**
+     * Compacts whitespace in the string to a single space and trims the ends.
+     *
+     * @param  {String} [str] String to remove spaces
+     * @return {String}
+     * @example
+     *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
+     */
+    strCompact(str) {
+        return this.trim(str).replace(/([\r\n\s　])+/g, (match, whitespace) => {
+            return whitespace === '　' ? whitespace : ' ';
+        });
+    },
+
+    /**
      * Multiple string replace, PHP str_replace clone
      * @param {string|Array} search - The value being searched for, otherwise known as the needle.
      *     An array may be used to designate multiple needles.

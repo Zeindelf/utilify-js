@@ -204,6 +204,10 @@ class GlobalHelpers {
         return globalHelpers.stripHttp(url);
     }
 
+    strCompact(str) {
+        return stringHelpers.strCompact(str);
+    }
+
     strReplace(search, replace, subject) {
         return stringHelpers.strReplace(search, replace, subject);
     }
