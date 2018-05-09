@@ -283,7 +283,7 @@ export default {
 
     // PRIVATE
     _getSparseArrayIndexes(arr, fromIndex, loop, fromRight) {
-        let indexes = []
+        let indexes = [];
         let i;
 
         for ( i in arr ) {

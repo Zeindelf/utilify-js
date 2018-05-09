@@ -107,7 +107,7 @@ export default {
      *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
      */
     strCompact(str) {
-        return this.trim(str).replace(/([\r\n\s　])+/g, (match, whitespace) => {
+        return this.trim(str).replace(/([\r\n\s])+/g, (match, whitespace) => {
             return whitespace === '　' ? whitespace : ' ';
         });
     },

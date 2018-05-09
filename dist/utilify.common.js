@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.1.1
+ * Utilify.js v0.2.0
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-09T17:45:42.542Z
+ * Date: 2018-05-09T19:31:29.960Z
  */
 
 'use strict';
@@ -1896,7 +1896,7 @@ var stringHelpers = {
      *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
      */
     strCompact: function strCompact(str) {
-        return this.trim(str).replace(/([\r\n\s　])+/g, function (match, whitespace) {
+        return this.trim(str).replace(/([\r\n\s])+/g, function (match, whitespace) {
             return whitespace === '　' ? whitespace : ' ';
         });
     },
@@ -2480,7 +2480,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.1.1';
+  this.version = '0.2.0';
 
   /**
    * Package name
