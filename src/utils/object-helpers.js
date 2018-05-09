@@ -3,6 +3,28 @@ import validateHelpers from './validate-helpers.js';
 
 export default {
     /**
+     * Call Object.freeze(obj) recursively on all unfrozen
+     * properties of obj that are functions or objects.
+     *
+     * @param  {Object} [obj] Object to freeze
+     * @return {Object}
+     */
+    deepFreeze(obj) {
+        Object.freeze(obj);
+
+        Object.getOwnPropertyNames(obj).forEach((prop) => {
+            if ( obj.hasOwnProperty(prop)
+                && obj[prop] !== null
+                && (typeof obj[prop] === 'object' || typeof obj[prop] === 'function')
+                && !Object.isFrozen(obj[prop])) {
+                    this.deepFreeze(obj[prop]);
+                }
+        });
+
+        return obj;
+    },
+
+    /**
      * Extend the given object
      * @param {object} obj - The object to be extended
      * @param {*} args - The rest objects which will be merged to the first object

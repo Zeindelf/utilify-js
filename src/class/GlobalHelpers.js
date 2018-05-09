@@ -148,6 +148,10 @@ class GlobalHelpers {
         return globalHelpers.debounce(func, wait, options);
     }
 
+    deepFreeze(obj) {
+        return objectHelpers.deepFreeze(obj);
+    }
+
     escape(str) {
         return stringHelpers.escape(str);
     }

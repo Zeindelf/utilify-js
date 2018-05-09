@@ -6,7 +6,7 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-09T19:31:29.960Z
+ * Date: 2018-05-09T23:25:58.638Z
  */
 
 'use strict';
@@ -1686,6 +1686,28 @@ var arrayHelpers = {
 
 var objectHelpers = {
     /**
+     * Call Object.freeze(obj) recursively on all unfrozen
+     * properties of obj that are functions or objects.
+     *
+     * @param  {Object} [obj] Object to freeze
+     * @return {Object}
+     */
+    deepFreeze: function deepFreeze(obj) {
+        var _this = this;
+
+        Object.freeze(obj);
+
+        Object.getOwnPropertyNames(obj).forEach(function (prop) {
+            if (obj.hasOwnProperty(prop) && obj[prop] !== null && (_typeof(obj[prop]) === 'object' || typeof obj[prop] === 'function') && !Object.isFrozen(obj[prop])) {
+                _this.deepFreeze(obj[prop]);
+            }
+        });
+
+        return obj;
+    },
+
+
+    /**
      * Extend the given object
      * @param {object} obj - The object to be extended
      * @param {*} args - The rest objects which will be merged to the first object
@@ -2143,6 +2165,11 @@ var GlobalHelpers = function () {
         key: 'debounce',
         value: function debounce(func, wait, options) {
             return globalHelpers.debounce(func, wait, options);
+        }
+    }, {
+        key: 'deepFreeze',
+        value: function deepFreeze(obj) {
+            return objectHelpers.deepFreeze(obj);
         }
     }, {
         key: 'escape',
