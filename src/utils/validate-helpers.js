@@ -255,7 +255,7 @@ export default {
      *
      * @category Validate
      */
-    isRegexp(value) {
+    isRegExp(value) {
         return toString.call(value) === '[object RegExp]';
     },
 

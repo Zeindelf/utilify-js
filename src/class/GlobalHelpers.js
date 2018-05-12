@@ -128,6 +128,10 @@ class GlobalHelpers {
         return arrayHelpers.arrayUnique(arr);
     }
 
+    camelize(str) {
+        return globalHelpers.camelize(str);
+    }
+
     capitalize(str) {
         return stringHelpers.capitalize(str);
     }
@@ -230,6 +234,10 @@ class GlobalHelpers {
 
     trim(str) {
         return stringHelpers.trim(str);
+    }
+
+    underscore(str) {
+        return stringHelpers.underscore(str);
     }
 
     unescape(str) {

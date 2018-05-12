@@ -1,7 +1,53 @@
 
 import validateHelpers from './validate-helpers.js';
+import stringHelpers from './string-helpers.js';
 
 export default {
+    /**
+     * Recursively transform key strings to camelCase if param is an Object.
+     * If param is string, return an camel cased string.
+     *
+     * @param  {Object|String} obj  Object to transform
+     * @returns {Object|String}
+     */
+    camelize(obj) {
+        const _camelize = (str) => {
+            str = stringHelpers.trim(str);
+            str = stringHelpers.underscore(str);
+
+            return str.replace(/[_.-\s](\w|$)/g, (_, x) => x.toUpperCase());
+        };
+
+        if ( validateHelpers.isDate(obj) || validateHelpers.isRegExp(obj) ) {
+            return obj;
+        }
+
+        if ( validateHelpers.isArray(obj)) {
+            return obj.map((item, index) => {
+                if ( validateHelpers.isObject(item) ) {
+                    return this.camelize(item);
+                }
+
+                return item;
+            });
+        }
+
+        if ( validateHelpers.isString(obj) ) {
+            return _camelize(obj);
+        }
+
+        return Object.keys(obj).reduce((acc, key) => {
+            const camel = _camelize(key);
+            acc[camel] = obj[key];
+
+            if ( validateHelpers.isObject(obj[key]) ) {
+                acc[camel] = this.camelize(obj[key]);
+            }
+
+            return acc;
+        }, {});
+    },
+
     /**
      * Check if value contains in an element
      *

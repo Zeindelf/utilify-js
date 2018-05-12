@@ -6,7 +6,7 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-09T23:31:28.916Z
+ * Date: 2018-05-12T03:12:55.943Z
  */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -492,7 +492,236 @@ store.area("session", function () {
     };
 })(store, store._, undefined);
 
+var stringHelpers = {
+    /**
+     * Capitalize a string
+     *
+     * @param {string} str - The String
+     * @return {string} The modified string
+     * @example
+     *     capitalize('foo bar'); // 'Foo Bar'
+     */
+    capitalize: function capitalize(str) {
+        return str.replace(/(?:^|\s)\S/g, function (match) {
+            return match.toUpperCase();
+        });
+    },
+
+
+    /**
+     * Replace <, >, &, ', " and / with HTML entities.
+     * @param {string} str - The string to check
+     * @return {boolean}
+     */
+    escape: function escape(str) {
+        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
+    },
+
+
+    /**
+     * Zero padding number
+     *
+     * @param  {integer} number     Number to format
+     * @param  {integer} [size=2]   Digits limit
+     * @return {string}             Formatted num with zero padding
+     */
+    pad: function pad(number, size) {
+        var stringNum = String(number);
+
+        while (stringNum.length < (size || 2)) {
+            stringNum = '0' + stringNum;
+        }
+
+        return stringNum;
+    },
+
+
+    /**
+     * Remove accents from a string
+     * @param {string} str - The string to remove accents
+     * @return {string} The modified string
+     * @example
+     *     removeAccent('Olá Mündô!'); // 'Ola Mundo!'
+     */
+    removeAccent: function removeAccent(str) {
+        var reAccents = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
+
+        // Prefixed with some char to avoid off-by-one:
+        var replacements = '_aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
+
+        return str.replace(reAccents, function (match) {
+            return replacements[reAccents.source.indexOf(match)];
+        });
+    },
+
+
+    /**
+     * Slugify a text, removing/replacing all special characters and spaces with dashes '-'
+     * @param {string} str - The string to sanitize
+     * @return {string} The modified string
+     * @example
+     *     slugifyText('Olá Mundo!'); // 'ola-mundo'
+     */
+    slugifyText: function slugifyText(str) {
+        str = str.replace(/^\s+|\s+$/g, '') // trim
+        .toLowerCase().replace(/\./g, '-') // Replace a dot for a -
+        .replace(/\*/g, '-') // Replace a * for a -
+        .replace(/\+/g, '-'); // Replace a + for a -
+
+        // Remove accents, swap ñ for n, etc
+        var from = 'àáäâãèéëêìíïîòóöôõùúüûýÿñç·/_,:;';
+        var to = 'aaaaaeeeeiiiiooooouuuuyync------';
+
+        for (var i = 0, len = from.length; i < len; i += 1) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+
+        str = str.replace(/[^a-z0-9 -]/g, '') // Remove invalid chars
+        .replace(/\s+/g, '-') // Collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // Collapse dashes
+
+        if (str.charAt(0) === '-') str = str.substr(1);
+        if (str.charAt(str.length - 1) === '-') str = str.substr(0, str.length - 1);
+
+        return str;
+    },
+
+
+    /**
+     * Compacts whitespace in the string to a single space and trims the ends.
+     *
+     * @param  {String} [str] String to remove spaces
+     * @return {String}
+     * @example
+     *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
+     */
+    strCompact: function strCompact(str) {
+        return this.trim(str).replace(/([\r\n\s])+/g, function (match, whitespace) {
+            return whitespace === '　' ? whitespace : ' ';
+        });
+    },
+
+
+    /**
+     * Multiple string replace, PHP str_replace clone
+     * @param {string|Array} search - The value being searched for, otherwise known as the needle.
+     *     An array may be used to designate multiple needles.
+     * @param {string|Array} replace - The replacement value that replaces found search values.
+     *     An array may be used to designate multiple replacements.
+     * @param {string} subject - The subject of the replacement
+     * @return {string} The modified string
+     * @example
+     *     strReplace(['olá', 'mundo'], ['hello', 'world'], 'olá mundo'); // 'hello world'
+     *     strReplace(['um', 'dois'], 'olá', 'um dois três'); // Output 'olá olá três'
+     */
+    strReplace: function strReplace(search, replace, subject) {
+        var regex = void 0;
+
+        if (validateHelpers.isArray(search)) {
+            for (var i = 0; i < search.length; i++) {
+                search[i] = search[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+                regex = new RegExp(search[i], 'g');
+                subject = subject.replace(regex, validateHelpers.isArray(replace) ? replace[i] : replace);
+            }
+        } else {
+            search = search.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+            regex = new RegExp(search, 'g');
+            subject = subject.replace(regex, validateHelpers.isArray(replace) ? replace[0] : replace);
+        }
+
+        return subject;
+    },
+
+
+    /**
+     * Remove leading and trailing empty spaces.
+     *
+     * @param {String} str - The string.
+     * @returns {String} The new string.
+     * @example
+     *     trim('  Foo  ') // 'Foo'
+     */
+    trim: function trim(str) {
+        if (validateHelpers.isString(str)) {
+            return str.replace(/^\s+|\s+$/gm, '');
+        }
+
+        return '';
+    },
+
+
+    /**
+     * Converts hyphens and camel casing to underscores.
+     *
+     * @param  {String} str String to convert
+     * @return {String}
+     */
+    underscore: function underscore(str) {
+        return str.replace(/[-\s]+/g, '_').replace(/([A-Z\d]+)([A-Z][a-z])/g, '$1_$2').replace(/([a-z\d])([A-Z])/g, '$1_$2').toLowerCase();
+    },
+
+
+    /**
+     * Replaces HTML encoded entities with <, >, &, ', " and /.
+     * @param {string} str - The string to check
+     * @return {boolean}
+     */
+    unescape: function unescape(str) {
+        return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, '\'').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '/').replace(/&#x5C;/g, '\\').replace(/&#96;/g, '`');
+    }
+};
+
 var globalHelpers = {
+    /**
+     * Recursively transform key strings to camelCase if param is an Object.
+     * If param is string, return an camel cased string.
+     *
+     * @param  {Object|String} obj  Object to transform
+     * @returns {Object|String}
+     */
+    camelize: function camelize(obj) {
+        var _this = this;
+
+        var _camelize = function _camelize(str) {
+            str = stringHelpers.trim(str);
+            str = stringHelpers.underscore(str);
+
+            return str.replace(/[_.-\s](\w|$)/g, function (_, x) {
+                return x.toUpperCase();
+            });
+        };
+
+        if (validateHelpers.isDate(obj) || validateHelpers.isRegExp(obj)) {
+            return obj;
+        }
+
+        if (validateHelpers.isArray(obj)) {
+            return obj.map(function (item, index) {
+                if (validateHelpers.isObject(item)) {
+                    return _this.camelize(item);
+                }
+
+                return item;
+            });
+        }
+
+        if (validateHelpers.isString(obj)) {
+            return _camelize(obj);
+        }
+
+        return Object.keys(obj).reduce(function (acc, key) {
+            var camel = _camelize(key);
+            acc[camel] = obj[key];
+
+            if (validateHelpers.isObject(obj[key])) {
+                acc[camel] = _this.camelize(obj[key]);
+            }
+
+            return acc;
+        }, {});
+    },
+
+
     /**
      * Check if value contains in an element
      *
@@ -1295,7 +1524,7 @@ var validateHelpers = {
      *
      * @category Validate
      */
-    isRegexp: function isRegexp(value) {
+    isRegExp: function isRegExp(value) {
         return toString.call(value) === '[object RegExp]';
     },
 
@@ -1813,173 +2042,6 @@ var objectHelpers = {
     }
 };
 
-var stringHelpers = {
-    /**
-     * Capitalize a string
-     * @param {string} str - The String
-     * @return {string} The modified string
-     * @example
-     *     capitalize('foo bar'); // 'Foo Bar'
-     */
-    capitalize: function capitalize(str) {
-        return str.replace(/(?:^|\s)\S/g, function (match) {
-            return match.toUpperCase();
-        });
-    },
-
-
-    /**
-     * Replace <, >, &, ', " and / with HTML entities.
-     * @param {string} str - The string to check
-     * @return {boolean}
-     */
-    escape: function escape(str) {
-        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
-    },
-
-
-    /**
-     * Zero padding number
-     *
-     * @param  {integer} number     Number to format
-     * @param  {integer} [size=2]   Digits limit
-     * @return {string}             Formatted num with zero padding
-     */
-    pad: function pad(number, size) {
-        var stringNum = String(number);
-
-        while (stringNum.length < (size || 2)) {
-            stringNum = '0' + stringNum;
-        }
-
-        return stringNum;
-    },
-
-
-    /**
-     * Remove accents from a string
-     * @param {string} str - The string to remove accents
-     * @return {string} The modified string
-     * @example
-     *     removeAccent('Olá Mündô!'); // 'Ola Mundo!'
-     */
-    removeAccent: function removeAccent(str) {
-        var reAccents = /[àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ]/g;
-
-        // Prefixed with some char to avoid off-by-one:
-        var replacements = '_aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY';
-
-        return str.replace(reAccents, function (match) {
-            return replacements[reAccents.source.indexOf(match)];
-        });
-    },
-
-
-    /**
-     * Slugify a text, removing/replacing all special characters and spaces with dashes '-'
-     * @param {string} str - The string to sanitize
-     * @return {string} The modified string
-     * @example
-     *     slugifyText('Olá Mundo!'); // 'ola-mundo'
-     */
-    slugifyText: function slugifyText(str) {
-        str = str.replace(/^\s+|\s+$/g, '') // trim
-        .toLowerCase().replace(/\./g, '-') // Replace a dot for a -
-        .replace(/\*/g, '-') // Replace a * for a -
-        .replace(/\+/g, '-'); // Replace a + for a -
-
-        // Remove accents, swap ñ for n, etc
-        var from = 'àáäâãèéëêìíïîòóöôõùúüûýÿñç·/_,:;';
-        var to = 'aaaaaeeeeiiiiooooouuuuyync------';
-
-        for (var i = 0, len = from.length; i < len; i += 1) {
-            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-        }
-
-        str = str.replace(/[^a-z0-9 -]/g, '') // Remove invalid chars
-        .replace(/\s+/g, '-') // Collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // Collapse dashes
-
-        if (str.charAt(0) === '-') str = str.substr(1);
-        if (str.charAt(str.length - 1) === '-') str = str.substr(0, str.length - 1);
-
-        return str;
-    },
-
-
-    /**
-     * Compacts whitespace in the string to a single space and trims the ends.
-     *
-     * @param  {String} [str] String to remove spaces
-     * @return {String}
-     * @example
-     *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
-     */
-    strCompact: function strCompact(str) {
-        return this.trim(str).replace(/([\r\n\s])+/g, function (match, whitespace) {
-            return whitespace === '　' ? whitespace : ' ';
-        });
-    },
-
-
-    /**
-     * Multiple string replace, PHP str_replace clone
-     * @param {string|Array} search - The value being searched for, otherwise known as the needle.
-     *     An array may be used to designate multiple needles.
-     * @param {string|Array} replace - The replacement value that replaces found search values.
-     *     An array may be used to designate multiple replacements.
-     * @param {string} subject - The subject of the replacement
-     * @return {string} The modified string
-     * @example
-     *     strReplace(['olá', 'mundo'], ['hello', 'world'], 'olá mundo'); // 'hello world'
-     *     strReplace(['um', 'dois'], 'olá', 'um dois três'); // Output 'olá olá três'
-     */
-    strReplace: function strReplace(search, replace, subject) {
-        var regex = void 0;
-
-        if (validateHelpers.isArray(search)) {
-            for (var i = 0; i < search.length; i++) {
-                search[i] = search[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-                regex = new RegExp(search[i], 'g');
-                subject = subject.replace(regex, validateHelpers.isArray(replace) ? replace[i] : replace);
-            }
-        } else {
-            search = search.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-            regex = new RegExp(search, 'g');
-            subject = subject.replace(regex, validateHelpers.isArray(replace) ? replace[0] : replace);
-        }
-
-        return subject;
-    },
-
-
-    /**
-     * Remove leading and trailing empty spaces.
-     *
-     * @param {String} str - The string.
-     * @returns {String} The new string.
-     * @example
-     *     trim('  Foo  ') // 'Foo'
-     */
-    trim: function trim(str) {
-        if (validateHelpers.isString(str)) {
-            return str.replace(/^\s+|\s+$/gm, '');
-        }
-
-        return '';
-    },
-
-
-    /**
-     * Replaces HTML encoded entities with <, >, &, ', " and /.
-     * @param {string} str - The string to check
-     * @return {boolean}
-     */
-    unescape: function unescape(str) {
-        return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, '\'').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '/').replace(/&#x5C;/g, '\\').replace(/&#96;/g, '`');
-    }
-};
-
 /**
  * Create a GlobalHelpers class
  * Javascript utilities methods
@@ -2140,6 +2202,11 @@ var GlobalHelpers = function () {
             return arrayHelpers.arrayUnique(arr);
         }
     }, {
+        key: 'camelize',
+        value: function camelize(str) {
+            return globalHelpers.camelize(str);
+        }
+    }, {
         key: 'capitalize',
         value: function capitalize(str) {
             return stringHelpers.capitalize(str);
@@ -2272,6 +2339,11 @@ var GlobalHelpers = function () {
         key: 'trim',
         value: function trim(str) {
             return stringHelpers.trim(str);
+        }
+    }, {
+        key: 'underscore',
+        value: function underscore(str) {
+            return stringHelpers.underscore(str);
         }
     }, {
         key: 'unescape',

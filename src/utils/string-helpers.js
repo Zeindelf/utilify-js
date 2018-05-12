@@ -4,6 +4,7 @@ import validateHelpers from './validate-helpers.js';
 export default {
     /**
      * Capitalize a string
+     *
      * @param {string} str - The String
      * @return {string} The modified string
      * @example
@@ -156,6 +157,20 @@ export default {
         }
 
         return '';
+    },
+
+    /**
+     * Converts hyphens and camel casing to underscores.
+     *
+     * @param  {String} str String to convert
+     * @return {String}
+     */
+    underscore(str) {
+        return str
+            .replace(/[-\s]+/g, '_')
+            .replace(/([A-Z\d]+)([A-Z][a-z])/g,'$1_$2')
+            .replace(/([a-z\d])([A-Z])/g,'$1_$2')
+            .toLowerCase();
     },
 
     /**
