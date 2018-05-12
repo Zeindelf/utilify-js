@@ -149,7 +149,8 @@ globalHelpers.trim('  Foo  ') // 'Foo'
 ### globalHelpers.underscore(str)
 
 Converts hyphens and camel casing to underscores.
-@Method from SugarJS
+
+**@Method from SugarJS**
 
 - **str**:
   - Type: `String`

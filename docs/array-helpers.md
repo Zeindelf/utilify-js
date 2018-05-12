@@ -184,7 +184,8 @@ globalHelpers.shuffleArray([1, 2, 3, 4]); // [3, 2, 4, 1]
 ### globalHelpers.slice(array[, start[, end]])
 
 Creates a slice of `array` from `start` up to, but not including, `end`.
-@Method from Lodash
+
+**@Method from Lodash**
 
 - **array**:
   - Type: `Array`

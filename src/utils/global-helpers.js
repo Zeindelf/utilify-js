@@ -11,13 +11,18 @@ export default {
      * @returns {Object|String}
      */
     camelize(obj) {
-        const _camelize = (str) => stringHelpers.slugifyText(str).replace(/[_.-\s](\w|$)/g, (_, x) => x.toUpperCase());
+        const _camelize = (str) => {
+            str = stringHelpers.underscore(str);
+            str = stringHelpers.slugifyText(str);
+
+            return str.replace(/[_.-\s](\w|$)/g, (_, x) => x.toUpperCase());
+        };
 
         if ( validateHelpers.isDate(obj) || validateHelpers.isRegExp(obj) ) {
             return obj;
         }
 
-        if ( validateHelpers.isArray(obj)) {
+        if ( validateHelpers.isArray(obj) ) {
             return obj.map((item, index) => {
                 if ( validateHelpers.isObject(item) ) {
                     return this.camelize(item);
