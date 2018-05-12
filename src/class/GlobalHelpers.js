@@ -89,8 +89,8 @@ class GlobalHelpers {
         return validateHelpers.isPlainObject(value);
     }
 
-    isRegexp(value) {
-        return validateHelpers.isRegexp(value);
+    isRegExp(value) {
+        return validateHelpers.isRegExp(value);
     }
 
     isSameType(value, other) {

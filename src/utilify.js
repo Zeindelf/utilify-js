@@ -14,7 +14,7 @@ class Utilify {
          * Version
          * @type {String}
          */
-        this.version = '0.2.1';
+        this.version = '0.3.0';
 
         /**
          * Package name

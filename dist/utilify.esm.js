@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.2.1
+ * Utilify.js v0.3.0
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-12T03:12:55.943Z
+ * Date: 2018-05-12T06:04:53.472Z
  */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -2152,9 +2152,9 @@ var GlobalHelpers = function () {
             return validateHelpers.isPlainObject(value);
         }
     }, {
-        key: 'isRegexp',
-        value: function isRegexp(value) {
-            return validateHelpers.isRegexp(value);
+        key: 'isRegExp',
+        value: function isRegExp(value) {
+            return validateHelpers.isRegExp(value);
         }
     }, {
         key: 'isSameType',
@@ -2582,7 +2582,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.2.1';
+  this.version = '0.3.0';
 
   /**
    * Package name

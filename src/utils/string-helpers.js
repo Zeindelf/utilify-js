@@ -168,8 +168,8 @@ export default {
     underscore(str) {
         return str
             .replace(/[-\s]+/g, '_')
-            .replace(/([A-Z\d]+)([A-Z][a-z])/g,'$1_$2')
-            .replace(/([a-z\d])([A-Z])/g,'$1_$2')
+            .replace(/([A-Z\d]+)([A-Z][a-z])/g, '$1_$2')
+            .replace(/([a-z\d])([A-Z])/g, '$1_$2')
             .toLowerCase();
     },
 
