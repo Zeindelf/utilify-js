@@ -7,7 +7,7 @@ export default {
      * Recursively transform key strings to camelCase if param is an Object.
      * If param is string, return an camel cased string.
      *
-     * @param  {Object|String} obj  Object to transform
+     * @param  {Object|String} obj  Object or string to transform
      * @returns {Object|String}
      */
     camelize(obj) {

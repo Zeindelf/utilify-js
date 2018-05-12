@@ -105,7 +105,7 @@ export default {
      * @param  {String} [str] String to remove spaces
      * @return {String}
      * @example
-     *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
+     *     strCompact('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
      */
     strCompact(str) {
         return this.trim(str).replace(/([\r\n\s])+/g, (match, whitespace) => {

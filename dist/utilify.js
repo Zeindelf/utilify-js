@@ -599,7 +599,7 @@ var stringHelpers = {
      * @param  {String} [str] String to remove spaces
      * @return {String}
      * @example
-     *     trim('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
+     *     strCompact('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
      */
     strCompact: function strCompact(str) {
         return this.trim(str).replace(/([\r\n\s])+/g, function (match, whitespace) {
@@ -682,7 +682,7 @@ var globalHelpers = {
      * Recursively transform key strings to camelCase if param is an Object.
      * If param is string, return an camel cased string.
      *
-     * @param  {Object|String} obj  Object to transform
+     * @param  {Object|String} obj  Object or string to transform
      * @returns {Object|String}
      */
     camelize: function camelize(obj) {
@@ -2300,6 +2300,11 @@ var GlobalHelpers = function () {
         key: 'shuffleArray',
         value: function shuffleArray(array) {
             return arrayHelpers.shuffleArray(array);
+        }
+    }, {
+        key: 'slice',
+        value: function slice(array, start, end) {
+            return arrayHelpers.slice(array, start, end);
         }
     }, {
         key: 'slugifyText',

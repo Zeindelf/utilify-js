@@ -200,6 +200,10 @@ class GlobalHelpers {
         return arrayHelpers.shuffleArray(array);
     }
 
+    slice(array, start, end) {
+        return arrayHelpers.slice(array, start, end);
+    }
+
     slugifyText(str) {
         return stringHelpers.slugifyText(str);
     }
