@@ -11,12 +11,7 @@ export default {
      * @returns {Object|String}
      */
     camelize(obj) {
-        const _camelize = (str) => {
-            str = stringHelpers.trim(str);
-            str = stringHelpers.underscore(str);
-
-            return str.replace(/[_.-\s](\w|$)/g, (_, x) => x.toUpperCase());
-        };
+        const _camelize = (str) =>  globalHelpers.slugifyText(str).replace(/[_.-\s](\w|$)/g, (_, x) => x.toUpperCase());
 
         if ( validateHelpers.isDate(obj) || validateHelpers.isRegExp(obj) ) {
             return obj;
