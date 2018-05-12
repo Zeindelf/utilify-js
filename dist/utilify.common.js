@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.3.0
+ * Utilify.js v0.3.1
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-12T06:04:53.472Z
+ * Date: 2018-05-12T17:11:04.952Z
  */
 
 'use strict';
@@ -685,10 +685,7 @@ var globalHelpers = {
         var _this = this;
 
         var _camelize = function _camelize(str) {
-            str = stringHelpers.trim(str);
-            str = stringHelpers.underscore(str);
-
-            return str.replace(/[_.-\s](\w|$)/g, function (_, x) {
+            return stringHelpers.slugifyText(str).replace(/[_.-\s](\w|$)/g, function (_, x) {
                 return x.toUpperCase();
             });
         };
@@ -2584,7 +2581,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.3.0';
+  this.version = '0.3.1';
 
   /**
    * Package name
