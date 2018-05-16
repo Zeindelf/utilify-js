@@ -1,5 +1,6 @@
 
 import validateHelpers from './validate-helpers.js';
+import globalHelpers from './global-helpers.js';
 import stringHelpers from './string-helpers.js';
 import objectHelpers from './object-helpers.js';
 
@@ -33,7 +34,7 @@ export default {
         /* eslint-disable */
         return $.Deferred((def) => {
             /* eslint-enable */
-            if ( ! validateHelpers.isObjectEmpty(store) ) {
+            if ( !validateHelpers.isObjectEmpty(store) ) {
                 def.resolve(store);
             } else {
                 if ( window.navigator.geolocation ) {
@@ -41,7 +42,7 @@ export default {
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
 
-                        if ( ! window.google ) {
+                        if ( !window.google ) {
                             return def.reject('Google Maps Javascript API not found. Follow tutorial: https://developers.google.com/maps/documentation/javascript');
                         }
 
@@ -123,7 +124,7 @@ export default {
     filteredState(state) {
         this._validateStateInitials(state);
 
-        return objectHelpers.objectSearch(this._stateMap, {initials: state.toUpperCase()});
+        return objectHelpers.objectSearch(this._stateMap, {name: state}, true);
     },
 
     getStates() {
@@ -141,8 +142,8 @@ export default {
      * @return {Error}        Return an error if state not an initials
      */
     _validateStateInitials(state) {
-        if ( state.length !== 2 ) {
-            throw new Error(`'state' must be two letters. e.g. 'SP'`);
+        if ( state.length < 2 ) {
+            throw new Error(`'state' must be two letters. e.g. 'SP' or full state name`);
         }
     },
 

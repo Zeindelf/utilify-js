@@ -1,5 +1,6 @@
 
 import validateHelpers from './validate-helpers.js';
+import globalHelpers from './global-helpers.js';
 
 export default {
     /**
@@ -54,7 +55,7 @@ export default {
      * @return {int}
      */
     length(item) {
-        if ( ! validateHelpers.isUndefined(item.length) ) {
+        if ( !validateHelpers.isUndefined(item.length) ) {
             return item.length;
         }
 
@@ -70,6 +71,7 @@ export default {
      * @access public
      * @param {Object} object - The haystack
      * @param {Object} needle - Key value pair that will be searched
+     * @param {Boolean} [caseSensitive=false] Enable/disable case sensitive on search
      * @return {Object}
      * @example
      *     var data = [{
@@ -94,11 +96,12 @@ export default {
      *     }];
      *     objectSearch(data, {id: 4}); // { id: 4, name: 'key 4'};
      */
-    objectSearch(object, needle) {
+    objectSearch(object, needle, caseSensitive = false) {
         let p;
         let key;
         let val;
         let tRet;
+        const normalize = (str) => ( caseSensitive ) ? globalHelpers.camelize(str).toLowerCase() : str;
 
         for ( p in needle ) {
             if ( needle.hasOwnProperty(p) ) {
@@ -109,12 +112,12 @@ export default {
 
         for ( p in object ) {
             if ( p === key ) {
-                if ( object[p] === val ) {
+                if ( normalize(object[p]) === normalize(val) ) {
                     return object;
                 }
             } else if ( object[p] instanceof Object ) {
                 if ( object.hasOwnProperty(p) ) {
-                    tRet = this.objectSearch(object[p], needle);
+                    tRet = this.objectSearch(object[p], needle, caseSensitive);
                     if ( tRet ) {
                         return tRet;
                     }

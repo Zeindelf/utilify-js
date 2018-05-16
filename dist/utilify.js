@@ -6,7 +6,7 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-12T17:33:11.136Z
+ * Date: 2018-05-16T03:34:26.568Z
  */
 
 (function (global, factory) {
@@ -2017,10 +2017,15 @@ var objectHelpers = {
      *     objectSearch(data, {id: 4}); // { id: 4, name: 'key 4'};
      */
     objectSearch: function objectSearch(object, needle) {
+        var caseSensitive = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
         var p = void 0;
         var key = void 0;
         var val = void 0;
         var tRet = void 0;
+        var normalize = function normalize(str) {
+            return caseSensitive ? globalHelpers.camelize(str).toLowerCase() : str;
+        };
 
         for (p in needle) {
             if (needle.hasOwnProperty(p)) {
@@ -2031,12 +2036,12 @@ var objectHelpers = {
 
         for (p in object) {
             if (p === key) {
-                if (object[p] === val) {
+                if (normalize(object[p]) === normalize(val)) {
                     return object;
                 }
             } else if (object[p] instanceof Object) {
                 if (object.hasOwnProperty(p)) {
-                    tRet = this.objectSearch(object[p], needle);
+                    tRet = this.objectSearch(object[p], needle, caseSensitive);
                     if (tRet) {
                         return tRet;
                     }
@@ -2502,7 +2507,7 @@ var locationHelpers = {
     filteredState: function filteredState(state) {
         this._validateStateInitials(state);
 
-        return objectHelpers.objectSearch(this._stateMap, { initials: state.toUpperCase() });
+        return objectHelpers.objectSearch(this._stateMap, { name: state }, true);
     },
     getStates: function getStates() {
         return this._stateMap;
@@ -2519,8 +2524,8 @@ var locationHelpers = {
      * @return {Error}        Return an error if state not an initials
      */
     _validateStateInitials: function _validateStateInitials(state) {
-        if (state.length !== 2) {
-            throw new Error('\'state\' must be two letters. e.g. \'SP\'');
+        if (state.length < 2) {
+            throw new Error('\'state\' must be two letters. e.g. \'SP\' or full state name');
         }
     },
 
