@@ -1,6 +1,5 @@
 
 import validateHelpers from './validate-helpers.js';
-import globalHelpers from './global-helpers.js';
 import stringHelpers from './string-helpers.js';
 import objectHelpers from './object-helpers.js';
 

@@ -48,7 +48,7 @@ globalHelpers.length({foo: 'Foo', bar: 'Bar'}); 2
 globalHelpers.length([{foo: 'Foo'}, {bar: 'Bar'}, {baz: 'Baz'}]); 3
 ```
 
-### globalHelpers.objectSearch(object, needle)
+### globalHelpers.objectSearch(object, needle[, caseSensitive])
 
 Search through an object recursively and return the first match of the key:value passed
 
@@ -59,6 +59,11 @@ Search through an object recursively and return the first match of the key:value
 - **needle**:
   - Type: `Object`
   - Key value pair that will be searched
+
+- **caseSensitive** (optional):
+  - Type: `Object`
+  - Default: `false`
+  - Enable/disable case sensitive on search
 
 #### Example
 

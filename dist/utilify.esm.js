@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.3.2
+ * Utilify.js v0.3.3
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-16T03:34:26.568Z
+ * Date: 2018-05-16T05:49:54.478Z
  */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -1986,6 +1986,7 @@ var objectHelpers = {
      * @access public
      * @param {Object} object - The haystack
      * @param {Object} needle - Key value pair that will be searched
+     * @param {Boolean} [caseSensitive=false] Enable/disable case sensitive on search
      * @return {Object}
      * @example
      *     var data = [{
@@ -2587,7 +2588,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.3.2';
+  this.version = '0.3.3';
 
   /**
    * Package name
