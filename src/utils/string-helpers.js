@@ -40,11 +40,10 @@ export default {
      */
     normalizeText(str) {
         const re = /(^|[.!?]\s+)([a-z])/g;
-
         const normalize = (str) => str.toLowerCase().replace(re, (m, $1, $2) => $1 + $2.toUpperCase());
-        const addSpace = (str) => strCompact(str.replace(/[,.!?:;]+(?=\S)/g, '$& '));
+        const addSpace = (str) => this.strCompact(str.replace(/[,.!?:;]+(?=\S)/g, '$& '));
 
-        return normalize(addSpace(this.strCompact(str)));
+        return normalize(addSpace(str));
     },
 
     /**
