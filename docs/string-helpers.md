@@ -32,6 +32,18 @@ globalHelpers.escape(markup);
 // &lt;p&gt;&quot;Lorem ipsum&quot;&lt;&#x2F;p&gt;
 ```
 
+### globalHelpers.normalizeText(str)
+
+Normalize text adding first character to upper after punctuations (. ? !)
+
+- **str**:
+  - Type: `String`
+  - The text
+
+```js
+globalHelpers.normalizeText('foo bar foz. Foo Bar  Foz! foo foo?') // 'Foo bar foz. Foo bar foz! Foo foo?'
+```
+
 
 ### globalHelpers.pad(number[, size])
 
@@ -143,6 +155,18 @@ Remove leading and trailing empty spaces.
 
 ```js
 globalHelpers.trim('  Foo  ') // 'Foo'
+```
+
+### globalHelpers.ucfirst(str)
+
+Make a string's first character uppercase
+
+- **str**:
+  - Type: `String`
+  - The string
+
+```js
+globalHelpers.ucfirst('foo bar foz') // 'Foo bar foz'
 ```
 
 

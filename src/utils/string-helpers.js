@@ -33,6 +33,21 @@ export default {
     },
 
     /**
+     * Normalize text adding first character to upper after punctuations (. ? !)
+     *
+     * @param  {String} [str]  Text to convert
+     * @return {String}
+     */
+    normalizeText(str) {
+        const re = /(^|[.!?]\s+)([a-z])/g;
+
+        const normalize = (str) => str.toLowerCase().replace(re, (m, $1, $2) => $1 + $2.toUpperCase());
+        const addSpace = (str) => strCompact(str.replace(/[,.!?:;]+(?=\S)/g, '$& '));
+
+        return normalize(addSpace(this.strCompact(str)));
+    },
+
+    /**
      * Zero padding number
      *
      * @param  {integer} number     Number to format
@@ -158,6 +173,22 @@ export default {
 
         return '';
     },
+
+    /**
+     * Make a string's first character uppercase
+     * PHP ucfirst clone
+     *
+     * @param {String} str - The string.
+     * @returns {String} The new string.
+     * @example
+     *     ucfirst('foo bar foz') // 'Foo bar foz'
+     */
+    ucfirst (str) {
+        str += '';
+        const f = str.charAt(0).toUpperCase();
+
+        return f + str.substr(1);
+    }
 
     /**
      * Converts hyphens and camel casing to underscores.

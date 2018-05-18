@@ -180,6 +180,10 @@ class GlobalHelpers {
         return objectHelpers.length(item);
     }
 
+    normalizeText(str) {
+        return stringHelpers.normalizeText(str);
+    }
+
     objectSearch(object, needle) {
         return objectHelpers.objectSearch(object, needle);
     }
@@ -238,6 +242,10 @@ class GlobalHelpers {
 
     trim(str) {
         return stringHelpers.trim(str);
+    }
+
+    ucfirst (str) {
+        return stringHelpers.ucfirst (str);
     }
 
     underscore(str) {
