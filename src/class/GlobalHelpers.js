@@ -244,8 +244,8 @@ class GlobalHelpers {
         return stringHelpers.trim(str);
     }
 
-    ucfirst (str) {
-        return stringHelpers.ucfirst (str);
+    ucfirst(str) {
+        return stringHelpers.ucfirst(str);
     }
 
     underscore(str) {

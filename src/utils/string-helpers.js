@@ -183,12 +183,12 @@ export default {
      * @example
      *     ucfirst('foo bar foz') // 'Foo bar foz'
      */
-    ucfirst (str) {
+    ucfirst(str) {
         str += '';
         const f = str.charAt(0).toUpperCase();
 
         return f + str.substr(1);
-    }
+    },
 
     /**
      * Converts hyphens and camel casing to underscores.
