@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.3.5
+ * Utilify.js v0.3.6
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-18T19:52:46.875Z
+ * Date: 2018-05-20T21:26:39.522Z
  */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -2638,7 +2638,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.3.5';
+  this.version = '0.3.6';
 
   /**
    * Package name
