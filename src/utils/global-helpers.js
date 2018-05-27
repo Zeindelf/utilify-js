@@ -348,24 +348,25 @@ export default {
      * @param  {Number} aspectRatio   Image aspect ratio (calculate by (width / height))
      * @return {Object}               Object with new 'width' and 'height'
      */
-    resizeImageByRatio(type, newSize, aspectRatio) {
-        if ( ! validateHelpers.isNumber(newSize) || ! validateHelpers.isNumber(aspectRatio) ) {
-            newSize = parseFloat(newSize);
-            aspectRatio = parseFloat(aspectRatio);
+    resizeImageByRatio(type, newSize, aspectRatio, decimal) {
+        if ( !validateHelpers.isNumber(newSize) || !validateHelpers.isNumber(aspectRatio) ) {
+            newSize = parseFloat(newSize, 10);
+            aspectRatio = parseFloat(aspectRatio, 10);
         }
 
         const dimensions = {};
+        decimal = decimal || 4;
 
         switch ( type ) {
             case 'width':
-                dimensions.width = parseFloat(newSize);
-                dimensions.height = parseFloat((newSize / aspectRatio));
+                dimensions.width = parseFloat(newSize, 10);
+                dimensions.height = parseFloat((newSize / aspectRatio).toFixed(decimal), 10);
 
                 break;
 
             case 'height':
-                dimensions.width = parseFloat((newSize * aspectRatio));
-                dimensions.height = parseFloat(newSize);
+                dimensions.width = parseFloat((newSize * aspectRatio).toFixed(decimal), 10);
+                dimensions.height = parseFloat(newSize, 10);
 
                 break;
 
@@ -509,29 +510,6 @@ export default {
         }
 
         return result;
-    },
-
-    /**
-     * Converts a value to a number if possible.
-     *
-     * @category Global
-     * @param {Mix} value The value to convert.
-     * @returns {Number} The converted number, otherwise the original value.
-     * @example
-     *     toNumber('123') // 123
-     *     toNumber('123.456') // 123.456
-     */
-    toNumber(value) {
-        const number = parseFloat(value);
-        if ( number === undefined ) {
-            return value;
-        }
-
-        if ( number.toString().length !== value.toString().length ) {
-            return value;
-        }
-
-        return Number.isNaN(number) ? value : number;
     },
 
     /**

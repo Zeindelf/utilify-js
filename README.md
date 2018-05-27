@@ -75,6 +75,7 @@ var locationHelpers = utilify.locationHelpers;
 * [Array Helpers](docs/array-helpers.md)
 * [Global Helpers](docs/global-helpers.md)
 * [Location Helpers](docs/location-helpers.md)
+* [Number Helpers](docs/number-helpers.md)
 * [Object Helpers](docs/object-helpers.md)
 * [String Helpers](docs/string-helpers.md)
 * [Validate Helpers](docs/validate-helpers.md)

@@ -1,6 +1,7 @@
 
 import arrayHelpers from './../utils/array-helpers.js';
 import globalHelpers from './../utils/global-helpers.js';
+import numberHelpers from './../utils/number-helpers.js';
 import objectHelpers from './../utils/object-helpers.js';
 import stringHelpers from './../utils/string-helpers.js';
 import validateHelpers from './../utils/validate-helpers.js';
@@ -164,6 +165,10 @@ class GlobalHelpers {
         return objectHelpers.extend(obj, ...args);
     }
 
+    formatNumber(num, separator) {
+        return numberHelpers.formatNumber(num, separator);
+    }
+
     getType(variable) {
         return globalHelpers.getType(variable);
     }
@@ -178,6 +183,10 @@ class GlobalHelpers {
 
     length(item) {
         return objectHelpers.length(item);
+    }
+
+    milify(ugly, decimal) {
+        return numberHelpers.milify(ugly, decimal);
     }
 
     normalizeText(str) {
@@ -196,8 +205,8 @@ class GlobalHelpers {
         return stringHelpers.removeAccent(str);
     }
 
-    resizeImageByRatio(type, newValue, aspectRatio) {
-        return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio);
+    resizeImageByRatio(type, newValue, aspectRatio, decimals) {
+        return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
     }
 
     shuffleArray(array) {
@@ -237,7 +246,7 @@ class GlobalHelpers {
     }
 
     toNumber(value) {
-        return globalHelpers.toNumber(value);
+        return numberHelpers.toNumber(value);
     }
 
     trim(str) {

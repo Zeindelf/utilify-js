@@ -56,7 +56,7 @@ export default {
     pad(number, size) {
         let stringNum = String(number);
 
-        while (stringNum.length < (size || 2)) {
+        while ( stringNum.length < (size || 2) ) {
             stringNum = '0' + stringNum;
         }
 

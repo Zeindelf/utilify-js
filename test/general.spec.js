@@ -12,7 +12,6 @@ describe('General Methods', () => {
     const emailToPassTest = 'zeindelf@hotmail.com';
     const emailToNotPassTest = 'zeindelf@hotmail';
     const queryStringUrl = 'http://www.site.com?param1=foo&param2=bar&param3=baz';
-    const convertNumber = '123.123';
 
     const getType = (variable) => globalHelpers.getType(variable);
     const stripHost = globalHelpers.stripHost(urlToStrip);
@@ -22,7 +21,9 @@ describe('General Methods', () => {
     const getUrlParameter1 = globalHelpers.getUrlParameter('param1', queryStringUrl);
     const getUrlParameter2 = globalHelpers.getUrlParameter('param2', queryStringUrl);
     const unserialize = globalHelpers.unserialize(queryStringUrl);
-    const toNumber = globalHelpers.toNumber(convertNumber);
+    const resizeImgByRatioWidth = globalHelpers.resizeImageByRatio('width', 150, 16/9);
+    const resizeImgByRatioHeight = globalHelpers.resizeImageByRatio('height', 165, 16/9);
+    const resizeImgByRatioHeightRoundDecimals = globalHelpers.resizeImageByRatio('height', 150, 16/9, 2);
 
     it('get variable type', (done) => {
         const _undefined = undefined;
@@ -68,8 +69,10 @@ describe('General Methods', () => {
         done();
     });
 
-    it('convert to number', (done) => {
-        expect(toNumber).to.equal(123.123);
+    it('resize image by ratio', (done) => {
+        expect(resizeImgByRatioWidth).to.deep.equal({width: 150, height: 84.375});
+        expect(resizeImgByRatioHeight).to.deep.equal({width: 293.3333, height: 165});
+        expect(resizeImgByRatioHeightRoundDecimals).to.deep.equal({width: 266.67, height: 150});
         done();
     });
 });

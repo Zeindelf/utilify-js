@@ -182,7 +182,7 @@ globalHelpers.getUrlParameter('param1', url); // foo
 ```
 
 
-### globalHelpers.resizeImageByRatio(type, newSize, aspectRatio)
+### globalHelpers.resizeImageByRatio(type, newSize, aspectRatio[, decimal])
 
 Resize image by aspect ratio
 
@@ -198,13 +198,16 @@ Resize image by aspect ratio
   - Type: `Number`
   - Image aspect ratio (calculate by (originalWidth / originalHeight))
 
+- **decimal** (optional):
+  - Type: `Number`
+  - Default: `4`
+  - Max decimal digits
+
 #### Example
 
 ```js
-var newSize = 1920;
-var aspectRatio = (16/9);
-
-var resized = globalHelpers.resizeImageByRatio('width', newSize, aspectRatio); // {width: 1920, height: 1080}
+globalHelpers.resizeImageByRatio('width', 1920, 16/9); // {width: 1920, height: 1080}
+globalHelpers.resizeImageByRatio('height', 150, 16/9, 2); // {width: 266.67, height: 150}
 ```
 
 
@@ -295,20 +298,6 @@ globalHelpers.times(3, String);
 
 globalHelpers.times(4, () => 0);
 // => [0, 0, 0, 0]
-```
-
-
-### globalHelpers.toNumber(value)
-
-Converts a value to a number if possible.
-
-- **value**:
-  - Type: `Mix`
-  - The value to convert
-
-```js
-globalHelpers.toNumber('123') // 123
-globalHelpers.toNumber('123.456') // 123.456
 ```
 
 

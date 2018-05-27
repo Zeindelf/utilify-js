@@ -218,6 +218,17 @@ export default {
     },
 
     /**
+     * Returns whether a value is a percentage.
+     *
+     * @category Validate
+     * @param  {Mix}  percentage - The percentage to test.
+     * @return {Boolean}
+     */
+    isPercentage(percentage) {
+        return this.isNumber(percentage) && percentage <= 100 && percentage >= 0;
+    },
+
+    /**
      * Check if the given value is a plain object.
      *
      * @category Validate

@@ -6,7 +6,7 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-20T21:26:39.522Z
+ * Date: 2018-05-27T01:23:18.424Z
  */
 
 (function (global, factory) {
@@ -1075,24 +1075,25 @@ var globalHelpers = {
      * @param  {Number} aspectRatio   Image aspect ratio (calculate by (width / height))
      * @return {Object}               Object with new 'width' and 'height'
      */
-    resizeImageByRatio: function resizeImageByRatio(type, newSize, aspectRatio) {
+    resizeImageByRatio: function resizeImageByRatio(type, newSize, aspectRatio, decimal) {
         if (!validateHelpers.isNumber(newSize) || !validateHelpers.isNumber(aspectRatio)) {
-            newSize = parseFloat(newSize);
-            aspectRatio = parseFloat(aspectRatio);
+            newSize = parseFloat(newSize, 10);
+            aspectRatio = parseFloat(aspectRatio, 10);
         }
 
         var dimensions = {};
+        decimal = decimal || 4;
 
         switch (type) {
             case 'width':
-                dimensions.width = parseFloat(newSize);
-                dimensions.height = parseFloat(newSize / aspectRatio);
+                dimensions.width = parseFloat(newSize, 10);
+                dimensions.height = parseFloat((newSize / aspectRatio).toFixed(decimal), 10);
 
                 break;
 
             case 'height':
-                dimensions.width = parseFloat(newSize * aspectRatio);
-                dimensions.height = parseFloat(newSize);
+                dimensions.width = parseFloat((newSize * aspectRatio).toFixed(decimal), 10);
+                dimensions.height = parseFloat(newSize, 10);
 
                 break;
 
@@ -1240,30 +1241,6 @@ var globalHelpers = {
         }
 
         return result;
-    },
-
-
-    /**
-     * Converts a value to a number if possible.
-     *
-     * @category Global
-     * @param {Mix} value The value to convert.
-     * @returns {Number} The converted number, otherwise the original value.
-     * @example
-     *     toNumber('123') // 123
-     *     toNumber('123.456') // 123.456
-     */
-    toNumber: function toNumber(value) {
-        var number = parseFloat(value);
-        if (number === undefined) {
-            return value;
-        }
-
-        if (number.toString().length !== value.toString().length) {
-            return value;
-        }
-
-        return Number.isNaN(number) ? value : number;
     },
 
 
@@ -1529,6 +1506,18 @@ var validateHelpers = {
         }
 
         return true;
+    },
+
+
+    /**
+     * Returns whether a value is a percentage.
+     *
+     * @category Validate
+     * @param  {Mix}  percentage - The percentage to test.
+     * @return {Boolean}
+     */
+    isPercentage: function isPercentage(percentage) {
+        return this.isNumber(percentage) && percentage <= 100 && percentage >= 0;
     },
 
 
@@ -1957,6 +1946,123 @@ var arrayHelpers = {
     }
 };
 
+// import validateHelpers from './validate-helpers.js';
+
+var numberHelpers = {
+    /**
+     * Formats an integer number with dots/commas as thousands separators
+     *
+     * @param  {Integer} num Number to format
+     * @param  {String} [separator='.'] Separator
+     * @return {String}
+     */
+    formatNumber: function formatNumber(num, separator) {
+        separator = separator || '.';
+
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+    },
+
+
+    /**
+     * Convert long numbers into a human-readable format, e.g. 25000 to '25K'
+     *
+     * @from millify
+     * @param  {Number} number    Number to format
+     * @param  {Integer} [decimal=1]  Decimal places
+     * @return {String}
+     */
+    milify: function milify(number, decimal) {
+        var suffixes = new Map();
+        suffixes.set(3, 'K');
+        suffixes.set(6, 'M');
+        suffixes.set(9, 'B');
+        suffixes.set(12, 'T');
+        suffixes.set(15, 'P');
+        suffixes.set(18, 'E');
+
+        // Make sure value is a number
+        number = function (num) {
+            if (typeof num !== 'number') {
+                throw new Error('Input value is not a number');
+            }
+
+            return parseFloat(num, 10);
+        }(number);
+
+        // Figure out how many digits in the integer
+        var digits = Math.floor(Math.log10(Math.abs(number))) + 1;
+
+        // Figure out the appropriate unit for the number
+        var units = function (num, zeroes) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = suffixes.keys()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var z = _step.value;
+
+                    if (num > z) {
+                        zeroes = z;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return {
+                suffix: suffixes.get(zeroes),
+                zeroes: zeroes
+            };
+        }(digits, null);
+
+        var pretty = number / Math.pow(10, units.zeroes);
+
+        decimal = pretty % 1 === 0 ? 2 : Math.max(1, decimal + 1) || 3;
+
+        if (-1000 < number && number < 1000) {
+            return number;
+        }
+
+        return '' + parseFloat(pretty.toPrecision(decimal)) + units.suffix;
+    },
+
+
+    /**
+     * Converts a value to a number if possible.
+     *
+     * @category Global
+     * @param {Mix} value The value to convert.
+     * @returns {Number} The converted number, otherwise the original value.
+     * @example
+     *     toNumber('123') // 123
+     *     toNumber('123.456') // 123.456
+     */
+    toNumber: function toNumber(value) {
+        var number = parseFloat(value);
+        if (number === undefined) {
+            return value;
+        }
+
+        if (number.toString().length !== value.toString().length) {
+            return value;
+        }
+
+        return Number.isNaN(number) ? value : number;
+    }
+};
+
 var objectHelpers = {
     /**
      * Call Object.freeze(obj) recursively on all unfrozen
@@ -2303,6 +2409,11 @@ var GlobalHelpers = function () {
             return objectHelpers.extend.apply(objectHelpers, [obj].concat(args));
         }
     }, {
+        key: 'formatNumber',
+        value: function formatNumber(num, separator) {
+            return numberHelpers.formatNumber(num, separator);
+        }
+    }, {
         key: 'getType',
         value: function getType(variable) {
             return globalHelpers.getType(variable);
@@ -2321,6 +2432,11 @@ var GlobalHelpers = function () {
         key: 'length',
         value: function length(item) {
             return objectHelpers.length(item);
+        }
+    }, {
+        key: 'milify',
+        value: function milify(ugly, decimal) {
+            return numberHelpers.milify(ugly, decimal);
         }
     }, {
         key: 'normalizeText',
@@ -2344,8 +2460,8 @@ var GlobalHelpers = function () {
         }
     }, {
         key: 'resizeImageByRatio',
-        value: function resizeImageByRatio(type, newValue, aspectRatio) {
-            return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio);
+        value: function resizeImageByRatio(type, newValue, aspectRatio, decimals) {
+            return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
         }
     }, {
         key: 'shuffleArray',
@@ -2395,7 +2511,7 @@ var GlobalHelpers = function () {
     }, {
         key: 'toNumber',
         value: function toNumber(value) {
-            return globalHelpers.toNumber(value);
+            return numberHelpers.toNumber(value);
         }
     }, {
         key: 'trim',
