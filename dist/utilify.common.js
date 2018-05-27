@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.3.6
+ * Utilify.js v0.4.0
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-27T01:23:18.424Z
+ * Date: 2018-05-27T01:25:22.608Z
  */
 
 'use strict';
@@ -2756,7 +2756,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.3.6';
+  this.version = '0.4.0';
 
   /**
    * Package name

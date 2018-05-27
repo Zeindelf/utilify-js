@@ -1,6 +1,6 @@
 {
   "name": "utilify-js",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "description": "Global and most common helpers for javascript",
   "main": "dist/utilify.common.js",
   "module": "dist/utilify.esm.js",
