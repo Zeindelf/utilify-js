@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.5.0
+ * Utilify.js v0.5.1
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-06-01T04:05:44.316Z
+ * Date: 2018-06-01T04:58:23.813Z
  */
 
 (function (global, factory) {
@@ -2180,7 +2180,7 @@ var objectHelpers = {
 
         if (!validateHelpers.isArray(map) || map.length < 1) {
             var compare = function compare(a, b, n) {
-                return _this2.getDescendantProp(a, n).localeCompare(_this2.getDescendantProp(b, n), undefined, { numeric: true });
+                return _this2.getDescendantProp(a, n).toString().localeCompare(_this2.getDescendantProp(b, n).toString(), undefined, { numeric: true });
             };
 
             return arr.slice().sort(function (a, b) {
@@ -2189,7 +2189,8 @@ var objectHelpers = {
         }
 
         return arr.slice().sort(function (a, b) {
-            var ordered = map.indexOf(_this2.getDescendantProp(a, key)) - map.indexOf(_this2.getDescendantProp(b, key));
+            var ordered = map.indexOf(_this2.getDescendantProp(a, key).toString()) - map.indexOf(_this2.getDescendantProp(b, key).toString());
+
             return reverse ? ordered * -1 : ordered;
         });
     },
@@ -2832,7 +2833,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.5.0';
+  this.version = '0.5.1';
 
   /**
    * Package name

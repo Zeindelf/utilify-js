@@ -105,13 +105,14 @@ export default {
      */
     objectArraySortByValue(arr, map, key, reverse = false) {
         if ( !validateHelpers.isArray(map) || map.length < 1 ) {
-            const compare = (a, b, n) => this.getDescendantProp(a, n).localeCompare(this.getDescendantProp(b, n), undefined, {numeric: true});
+            const compare = (a, b, n) => this.getDescendantProp(a, n).toString().localeCompare(this.getDescendantProp(b, n).toString(), undefined, {numeric: true});
 
             return arr.slice().sort((a, b) => (reverse) ? -compare(a, b, key) : compare(a, b, key));
         }
 
         return arr.slice().sort((a, b) => {
-            const ordered = map.indexOf(this.getDescendantProp(a, key)) - map.indexOf(this.getDescendantProp(b, key));
+            const ordered = map.indexOf(this.getDescendantProp(a, key).toString()) - map.indexOf(this.getDescendantProp(b, key).toString());
+
             return (reverse) ? ordered * -1 : ordered;
         });
     },
