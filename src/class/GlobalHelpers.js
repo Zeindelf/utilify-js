@@ -169,6 +169,10 @@ class GlobalHelpers {
         return numberHelpers.formatNumber(num, separator);
     }
 
+    getDescendantProp(obj, path) {
+        return objectHelpers.getDescendantProp(obj, path);
+    }
+
     getType(variable) {
         return globalHelpers.getType(variable);
     }
@@ -191,6 +195,10 @@ class GlobalHelpers {
 
     normalizeText(str) {
         return stringHelpers.normalizeText(str);
+    }
+
+    objectArraySortByValue(arr, map, key, reverse) {
+        return objectHelpers.objectArraySortByValue(arr, map, key, reverse);
     }
 
     objectSearch(object, needle) {

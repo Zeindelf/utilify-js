@@ -11,6 +11,7 @@ describe('Object Methods', () => {
     const objToCount = {foo: 'Foo', bar: 'Bar', baz: 'Baz'};
     const objToExtendOne = {foo1: 'Foo 1', bar1: 'Bar 1'};
     const objToExtendTwo = {foo2: 'Foo 2', bar2: 'Bar 2'};
+    const objToGetProp = {foo: {bar: {baz: 'Baz'}}};
     const objToSearch = [{
         id: 0,
         name: 'key 0',
@@ -37,6 +38,7 @@ describe('Object Methods', () => {
     const objValidateSuccess = globalHelpers.isObject({foo: 'Foo'});
     const objValidateError = globalHelpers.isObject('Foo');
     const objEmpty = globalHelpers.isObjectEmpty({});
+    const objGetDescendantProp = globalHelpers.getDescendantProp(objToGetProp, 'foo.bar.baz');
     const objectSearch = globalHelpers.objectSearch(objToSearch, {id: 4});
 
     it('object length', (done) => {
@@ -62,6 +64,43 @@ describe('Object Methods', () => {
 
     it('object search', (done) => {
         expect(objectSearch).to.deep.equal({id: 4, name: 'key 4'});
+        done();
+    });
+
+    it('get descendant properties', (done) => {
+        expect(objGetDescendantProp).to.equal('Baz');
+        done();
+    });
+
+    const objToSortByValue = [{param: 'D'}, {param: 'A'}, {param: 'E'}, {param: 'C'}, {param: 'B'}];
+    const objToSortByValueDeep = [{deep: {param: 'D'}}, {deep: {param: 'A'}}, {deep: {param: 'E'}}, {deep: {param: 'C'}}, {deep: {param: 'B'}}];
+    const mapToSort = ['A', 'B', 'C', 'D', 'E'];
+
+    const objectArraySortByValueAsc = globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'param');
+    const objectArraySortByValueDesc = globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'param', true);
+    const objectArraySortByValueDeepAsc = globalHelpers.objectArraySortByValue(objToSortByValueDeep, mapToSort, 'deep.param');
+    const objectArraySortByValueDeepDesc = globalHelpers.objectArraySortByValue(objToSortByValueDeep, mapToSort, 'deep.param', true);
+
+    const objectArraySortByValueEmptyMapAsc = globalHelpers.objectArraySortByValue(objToSortByValue, [], 'param');
+    const objectArraySortByValueEmptyMapDesc = globalHelpers.objectArraySortByValue(objToSortByValue, '', 'param', true);
+    const objectArraySortByValueDeepEmptyMapAsc = globalHelpers.objectArraySortByValue(objToSortByValueDeep, [], 'deep.param');
+    const objectArraySortByValueDeepEmptyMapDesc = globalHelpers.objectArraySortByValue(objToSortByValueDeep, '', 'deep.param', true);
+
+    it('object array sort by value', (done) => {
+        const expectedObjToSortByValueAsc = [{param: 'A'}, {param: 'B'}, {param: 'C'}, {param: 'D'}, {param: 'E'}];
+        const expectedObjToSortByValueDesc = [{param: 'E'}, {param: 'D'}, {param: 'C'}, {param: 'B'}, {param: 'A'}];
+        const expectedObjToSortByValueDeepAsc = [{deep: {param: 'A'}}, {deep: {param: 'B'}}, {deep: {param: 'C'}}, {deep: {param: 'D'}}, {deep: {param: 'E'}}];
+        const expectedObjToSortByValueDeepDesc = [{deep: {param: 'E'}}, {deep: {param: 'D'}}, {deep: {param: 'C'}}, {deep: {param: 'B'}}, {deep: {param: 'A'}}];
+
+        expect(objectArraySortByValueAsc).to.deep.equal(expectedObjToSortByValueAsc);
+        expect(objectArraySortByValueDesc).to.deep.equal(expectedObjToSortByValueDesc);
+        expect(objectArraySortByValueDeepAsc).to.deep.equal(expectedObjToSortByValueDeepAsc);
+        expect(objectArraySortByValueDeepDesc).to.deep.equal(expectedObjToSortByValueDeepDesc);
+
+        expect(objectArraySortByValueEmptyMapAsc).to.deep.equal(expectedObjToSortByValueAsc);
+        expect(objectArraySortByValueEmptyMapDesc).to.deep.equal(expectedObjToSortByValueDesc);
+        expect(objectArraySortByValueDeepEmptyMapAsc).to.deep.equal(expectedObjToSortByValueDeepAsc);
+        expect(objectArraySortByValueDeepEmptyMapDesc).to.deep.equal(expectedObjToSortByValueDeepDesc);
         done();
     });
 });

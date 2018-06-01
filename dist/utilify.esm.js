@@ -6,7 +6,7 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-05-27T01:25:22.608Z
+ * Date: 2018-06-01T03:52:47.576Z
  */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -2110,6 +2110,26 @@ var objectHelpers = {
 
 
     /**
+     * A function to take a string written in dot notation style, and use it to
+     * find a nested object property inside of an object.
+     *
+     * @param {Object} obj    The object to search
+     * @param {String} path   A dot notation style parameter reference (ie 'a.b.c')
+     *
+     * @returns the value of the property in question
+     */
+    getDescendantProp: function getDescendantProp(obj, path) {
+        if (!validateHelpers.isPlainObject(obj)) {
+            throw new TypeError('\'obj\' param must be an plain object');
+        }
+
+        return path.split('.').reduce(function (acc, part) {
+            return acc && acc[part];
+        }, obj);
+    },
+
+
+    /**
      * Return the length of an item (Object mostly)
      * @param {mixed}
      * @return {int}
@@ -2124,6 +2144,48 @@ var objectHelpers = {
         }
 
         return 0;
+    },
+
+
+    /**
+     * Sorting an array of objects by values
+     *
+     * @param  {Array}   [arr]              An Array of objects
+     * @param  {Mix}     [map]              Map to custom order. If value isn't an array with values, will do natural sort
+     * @param  {String}  [key]              Object key to use for sorting (accepts dot notation)
+     * @param  {Boolean} [reverse=false]    Reverse sorting
+     * @returns {Array}                     New object array with sorting values
+     * @example
+     *     var mapToSort = ['A', 'B', 'C', 'D', 'E']; // Map to sorting
+     *
+     *     var obj = [{param: 'D'}, {param: 'A'}, {param: 'E'}, {param: 'C'}, {param: 'B'}];
+     *     globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'param');
+     *     //=> [{param: 'A'}, {param: 'B'}, {param: 'C'}, {param: 'D'}, {param: 'E'}]
+     *
+     *     // Deep key
+     *     var obj = [{deep: {param: 'D'}}, {deep: {param: 'A'}}, {deep: {param: 'E'}}, {deep: {param: 'C'}}, {deep: {param: 'B'}}];
+     *     globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'deep.param');
+     *     //=> [{deep: {param: 'A'}}, {deep: {param: 'B'}}, {deep: {param: 'C'}}, {deep: {param: 'D'}}, {deep: {param: 'E'}}]
+     */
+    objectArraySortByValue: function objectArraySortByValue(arr, map, key) {
+        var _this2 = this;
+
+        var reverse = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+        if (!validateHelpers.isArray(map) || map.length < 1) {
+            var compare = function compare(a, b, n) {
+                return _this2.getDescendantProp(a, n).localeCompare(_this2.getDescendantProp(b, n), undefined, { numeric: true });
+            };
+
+            return arr.slice().sort(function (a, b) {
+                return reverse ? -compare(a, b, key) : compare(a, b, key);
+            });
+        }
+
+        return arr.slice().sort(function (a, b) {
+            var ordered = map.indexOf(_this2.getDescendantProp(a, key)) - map.indexOf(_this2.getDescendantProp(b, key));
+            return reverse ? ordered * -1 : ordered;
+        });
     },
 
 
@@ -2408,6 +2470,11 @@ var GlobalHelpers = function () {
             return numberHelpers.formatNumber(num, separator);
         }
     }, {
+        key: 'getDescendantProp',
+        value: function getDescendantProp(obj, path) {
+            return objectHelpers.getDescendantProp(obj, path);
+        }
+    }, {
         key: 'getType',
         value: function getType(variable) {
             return globalHelpers.getType(variable);
@@ -2436,6 +2503,11 @@ var GlobalHelpers = function () {
         key: 'normalizeText',
         value: function normalizeText(str) {
             return stringHelpers.normalizeText(str);
+        }
+    }, {
+        key: 'objectArraySortByValue',
+        value: function objectArraySortByValue(arr, map, key, reverse) {
+            return objectHelpers.objectArraySortByValue(arr, map, key, reverse);
         }
     }, {
         key: 'objectSearch',

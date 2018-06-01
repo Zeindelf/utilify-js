@@ -50,6 +50,23 @@ export default {
     },
 
     /**
+     * A function to take a string written in dot notation style, and use it to
+     * find a nested object property inside of an object.
+     *
+     * @param {Object} obj    The object to search
+     * @param {String} path   A dot notation style parameter reference (ie 'a.b.c')
+     *
+     * @returns the value of the property in question
+     */
+    getDescendantProp(obj, path) {
+        if ( !validateHelpers.isPlainObject(obj) ) {
+            throw new TypeError(`'obj' param must be an plain object`);
+        }
+
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    },
+
+    /**
      * Return the length of an item (Object mostly)
      * @param {mixed}
      * @return {int}
@@ -64,6 +81,39 @@ export default {
         }
 
         return 0;
+    },
+
+    /**
+     * Sorting an array of objects by values
+     *
+     * @param  {Array}   [arr]              An Array of objects
+     * @param  {Mix}     [map]              Map to custom order. If value isn't an array with values, will do natural sort
+     * @param  {String}  [key]              Object key to use for sorting (accepts dot notation)
+     * @param  {Boolean} [reverse=false]    Reverse sorting
+     * @returns {Array}                     New object array with sorting values
+     * @example
+     *     var mapToSort = ['A', 'B', 'C', 'D', 'E']; // Map to sorting
+     *
+     *     var obj = [{param: 'D'}, {param: 'A'}, {param: 'E'}, {param: 'C'}, {param: 'B'}];
+     *     globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'param');
+     *     //=> [{param: 'A'}, {param: 'B'}, {param: 'C'}, {param: 'D'}, {param: 'E'}]
+     *
+     *     // Deep key
+     *     var obj = [{deep: {param: 'D'}}, {deep: {param: 'A'}}, {deep: {param: 'E'}}, {deep: {param: 'C'}}, {deep: {param: 'B'}}];
+     *     globalHelpers.objectArraySortByValue(objToSortByValue, mapToSort, 'deep.param');
+     *     //=> [{deep: {param: 'A'}}, {deep: {param: 'B'}}, {deep: {param: 'C'}}, {deep: {param: 'D'}}, {deep: {param: 'E'}}]
+     */
+    objectArraySortByValue(arr, map, key, reverse = false) {
+        if ( !validateHelpers.isArray(map) || map.length < 1 ) {
+            const compare = (a, b, n) => this.getDescendantProp(a, n).localeCompare(this.getDescendantProp(b, n), undefined, {numeric: true});
+
+            return arr.slice().sort((a, b) => (reverse) ? -compare(a, b, key) : compare(a, b, key));
+        }
+
+        return arr.slice().sort((a, b) => {
+            const ordered = map.indexOf(this.getDescendantProp(a, key)) - map.indexOf(this.getDescendantProp(b, key));
+            return (reverse) ? ordered * -1 : ordered;
+        });
     },
 
     /**
