@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.5.1
+ * Utilify.js v0.5.2
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-06-01T04:58:23.813Z
+ * Date: 2018-08-11T19:59:45.329Z
  */
 
 'use strict';
@@ -2394,6 +2394,11 @@ var GlobalHelpers = function () {
          */
 
     }, {
+        key: 'arrayClone',
+        value: function arrayClone(arr) {
+            return arrayHelpers.arrayClone(arr);
+        }
+    }, {
         key: 'arrayCompact',
         value: function arrayCompact(arr) {
             return arrayHelpers.arrayCompact(arr);
@@ -2829,7 +2834,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.5.1';
+  this.version = '0.5.2';
 
   /**
    * Package name

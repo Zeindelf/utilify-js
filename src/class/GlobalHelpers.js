@@ -109,6 +109,10 @@ class GlobalHelpers {
     /**
      * Global Methods
      */
+    arrayClone(arr) {
+        return arrayHelpers.arrayClone(arr);
+    }
+
     arrayCompact(arr) {
         return arrayHelpers.arrayCompact(arr);
     }
