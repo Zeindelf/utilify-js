@@ -157,3 +157,23 @@ var data = [{
 
 globalHelpers.objectSearch(data, {id: 4}); // { id: 4, name: 'key 4'};
 ```
+
+
+### globalHelpers.objectToArray(obj)
+
+Convert object given into an array values
+
+- **obj**:
+  - Type: `Object`
+  - The plain object
+
+#### Example
+
+```js
+var obj = {
+  a: 'a',
+  b: 'b'
+};
+
+objectToArray(obj); // ['a', 'b']
+```

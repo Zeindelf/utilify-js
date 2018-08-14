@@ -189,6 +189,10 @@ class GlobalHelpers {
         return arrayHelpers.implode(pieces, glue);
     }
 
+    explode(str, separator, limit) {
+        return arrayHelpers.explode(str, separator, limit);
+    }
+
     length(item) {
         return objectHelpers.length(item);
     }
@@ -207,6 +211,10 @@ class GlobalHelpers {
 
     objectSearch(object, needle) {
         return objectHelpers.objectSearch(object, needle);
+    }
+
+    objectToArray(obj) {
+        return objectHelpers.objectToArray(obj);
     }
 
     pad(number, size) {

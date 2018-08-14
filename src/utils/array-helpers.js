@@ -210,6 +210,33 @@ export default {
     },
 
     /**
+     * Split array elements by separator - PHP implode alike
+     *
+     * @category Array
+     * @param {String} str - String to split
+     * @param {string} separator - The separator
+     * @param {Number} limit - Limit splitted elements
+     * @return {Array} The array with values
+     * @example
+     *     explode('a', '.', 2); // ['a']
+     *     explode('a.b', '.', 2); // ['a', 'b']
+     *     explode('a.b.c', '.', 2); // ['a', 'b.c']
+     */
+    explode(str, separator, limit) {
+        if ( !validateHelpers.isString(str) ) {
+            throw new Error(`'str' must be a String`);
+        }
+
+        const arr = str.split(separator);
+
+        if ( limit !== undefined && arr.length >= limit ) {
+            arr.push(arr.splice(limit - 1).join(separator));
+        }
+
+        return arr;
+    },
+
+    /**
      * Randomize a array elements with Fisher–Yates shuffle algorithm base.
      *
      * @category Array

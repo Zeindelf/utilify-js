@@ -167,6 +167,33 @@ Join array elements with glue string - PHP implode alike
 globalHelpers.implode(['Foo', 'Bar']); // 'Foo,Bar'
 ```
 
+
+### globalHelpers.explode(str, separator, limit)
+
+Split array elements by separator - PHP implode alike
+
+- **str**:
+  - Type: `String`
+  - String to split.
+
+- **separator**:
+  - Type: `String`
+  - The separator.
+
+- **limit** (optional):
+  - Type: `Number`
+  - Default: `null`
+  - Limit splitted elements.
+
+#### Example
+
+```js
+globalHelpers.explode('a', '.', 2); // ['a']
+globalHelpers.explode('a.b', '.', 2); // ['a', 'b']
+globalHelpers.explode('a.b.c', '.', 2); // ['a', 'b.c']
+```
+
+
 ### globalHelpers.shuffleArray(array)
 
 Randomize a array elements with Fisher–Yates shuffle algorithm base

@@ -178,4 +178,21 @@ export default {
 
         return false;
     },
+
+    /**
+     * Convert object given into an array values
+     *
+     * @param  {Object}  obj  Object to convert
+     * @return {Array}
+     * @example
+     *     const obj = {a: 'a', b: 'b'};
+     *     objectToArray(obj); // ['a', 'b']
+     */
+    objectToArray(obj) {
+        if ( !validateHelpers.isPlainObject(obj) ) {
+            throw new Error(`'obj' must be a plain object`);
+        }
+
+        return Object.keys(obj).map((key) => obj[key]);
+    },
 };
