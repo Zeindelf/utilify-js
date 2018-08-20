@@ -396,7 +396,7 @@ export default {
             if ( !semver.test(version) ) {
                 throw new Error('Invalid argument: not valid semver');
             }
-        }
+        };
 
         [v1, v2].forEach(validate);
 

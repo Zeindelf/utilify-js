@@ -1,12 +1,12 @@
 
 /*!!
- * Utilify.js v0.6.0
+ * Utilify.js v0.7.0
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-08-14T19:48:22.568Z
+ * Date: 2018-08-20T05:05:18.941Z
  */
 
 'use strict';
@@ -1098,6 +1098,57 @@ var globalHelpers = {
         }
 
         return dimensions;
+    },
+
+
+    /**
+     * Compare two semver version strings, returning -1, 0, or 1
+     * If the semver string `v1` is greater than `v2`, return 1. If the semver string `v2` is greater than `v1`, return -1. If `v1` equals `v2`, return 0
+     *
+     * @from @semver-compare
+     * @category Global
+     * @param  {String} v1 Your semver to compare
+     * @param  {String} v2 Compared semver
+     * @return {Number}    -1, 0, 1
+     */
+    semverCompare: function semverCompare(v1, v2) {
+        var semver = /^v?(?:\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+))?(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?)?)?$/i;
+        var validate = function validate(version) {
+            if (!validateHelpers.isString(version)) {
+                throw new TypeError('Invalid argument: expected string');
+            }
+            if (!semver.test(version)) {
+                throw new Error('Invalid argument: not valid semver');
+            }
+        };
+
+        [v1, v2].forEach(validate);
+
+        var pa = v1.split('.');
+        var pb = v2.split('.');
+
+        for (var i = 0; i < 3; i++) {
+            var na = Number(pa[i]);
+            var nb = Number(pb[i]);
+
+            if (na > nb) {
+                return 1;
+            }
+
+            if (nb > na) {
+                return -1;
+            }
+
+            if (!isNaN(na) && isNaN(nb)) {
+                return 1;
+            }
+
+            if (isNaN(na) && !isNaN(nb)) {
+                return -1;
+            }
+        }
+
+        return 0;
     },
 
 
@@ -2596,6 +2647,11 @@ var GlobalHelpers = function () {
             return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
         }
     }, {
+        key: 'semverCompare',
+        value: function semverCompare(v1, v2) {
+            return globalHelpers.semverCompare(v1, v2);
+        }
+    }, {
         key: 'shuffleArray',
         value: function shuffleArray(array) {
             return arrayHelpers.shuffleArray(array);
@@ -2892,7 +2948,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.6.0';
+  this.version = '0.7.0';
 
   /**
    * Package name
