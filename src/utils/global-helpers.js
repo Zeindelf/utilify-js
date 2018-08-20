@@ -378,6 +378,56 @@ export default {
     },
 
     /**
+     * Compare two semver version strings, returning -1, 0, or 1
+     * If the semver string `v1` is greater than `v2`, return 1. If the semver string `v2` is greater than `v1`, return -1. If `v1` equals `v2`, return 0
+     *
+     * @from @semver-compare
+     * @category Global
+     * @param  {String} v1 Your semver to compare
+     * @param  {String} v2 Compared semver
+     * @return {Number}    -1, 0, 1
+     */
+    semverCompare(v1, v2) {
+        const semver = /^v?(?:\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+))?(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?)?)?$/i;
+        const validate = (version) => {
+            if ( !validateHelpers.isString(version) ) {
+                throw new TypeError('Invalid argument: expected string');
+            }
+            if ( !semver.test(version) ) {
+                throw new Error('Invalid argument: not valid semver');
+            }
+        }
+
+        [v1, v2].forEach(validate);
+
+        const pa = v1.split('.');
+        const pb = v2.split('.');
+
+        for ( let i = 0; i < 3; i++ ) {
+            const na = Number(pa[i]);
+            const nb = Number(pb[i]);
+
+            if ( na > nb ) {
+                return 1;
+            }
+
+            if ( nb > na ) {
+                return -1;
+            }
+
+            if ( !isNaN(na) && isNaN(nb) ) {
+                return 1;
+            }
+
+            if ( isNaN(na) && !isNaN(nb) ) {
+                return -1;
+            }
+        }
+
+        return 0;
+    },
+
+    /**
      * Removes the host from an url
      *
      * @category Global

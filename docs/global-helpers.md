@@ -211,6 +211,31 @@ globalHelpers.resizeImageByRatio('height', 150, 16/9, 2); // {width: 266.67, hei
 ```
 
 
+### globalHelpers.semverCompare(v1, v2)
+
+Compare two semver version strings, returning -1, 0, or 1
+
+If the semver string `v1` is greater than `v2`, return 1. If the semver string `v2` is greater than `v1`, return -1. If `v1` equals `v2`, return 0
+
+- **v1**:
+  - Type: `String`
+  - Resize by 'width' or 'height'
+
+- **v2**:
+  - Type: `String`
+  - Compared semver
+
+#### Example
+
+```js
+globalHelpers.semverCompare('1.0.0', '1.0.1'); // -1
+globalHelpers.semverCompare('1.0.0', '1.0.0'); // 0
+globalHelpers.semverCompare('1.0.0', '0.9.0'); // 1
+```
+
+
+
+
 ### globalHelpers.stripHost(url)
 
 Removes the host from an url

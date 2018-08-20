@@ -229,6 +229,10 @@ class GlobalHelpers {
         return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
     }
 
+    semverCompare(v1, v2) {
+        return globalHelpers.semverCompare(v1, v2);
+    }
+
     shuffleArray(array) {
         return arrayHelpers.shuffleArray(array);
     }
