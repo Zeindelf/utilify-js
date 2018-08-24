@@ -71,7 +71,7 @@ class GlobalHelpers {
     }
 
     isNumeric(value) {
-        return validateHelpers,isNumeric(value);
+        return validateHelpers, isNumeric(value);
     }
 
     isObject(value) {
