@@ -180,7 +180,18 @@ export default {
     isNumber(value) {
         const isNaN = Number.isNaN || window.isNaN;
 
-        return typeof value === 'number' && ! isNaN(value);
+        return typeof value === 'number' && !isNaN(value);
+    },
+
+    /**
+     * Check if the given value is numeric (String or Number).
+     *
+     * @category Validate
+     * @param {*} value - The value to check.
+     * @return {boolean} Returns 'true' if the given value is a numeric, else 'false'.
+     */
+    isNumeric(value) {
+        return /^[0-9]*\.?[0-9]+$/.test(value);
     },
 
     /**
@@ -204,7 +215,7 @@ export default {
      *     isObjectEmpty({}); // true
      */
     isObjectEmpty(obj) {
-        if ( ! this.isObject(obj) ) {
+        if ( !this.isObject(obj) ) {
             return false;
         }
 

@@ -70,6 +70,10 @@ class GlobalHelpers {
         return validateHelpers.isNumber(value);
     }
 
+    isNumeric(value) {
+        return validateHelpers,isNumeric(value);
+    }
+
     isObject(value) {
         return validateHelpers.isObject(value);
     }
@@ -78,16 +82,20 @@ class GlobalHelpers {
         return validateHelpers.isObjectEmpty(obj);
     }
 
+    isPercentage(percentage) {
+        return validateHelpers.isPercentage(percentage);
+    }
+
+    isPlainObject(value) {
+        return validateHelpers.isPlainObject(value);
+    }
+
     isPrimitive(obj, type) {
         return validateHelpers.isPrimitive(obj, type);
     }
 
     isRealNaN(obj) {
         return validateHelpers.isRealNaN(obj);
-    }
-
-    isPlainObject(value) {
-        return validateHelpers.isPlainObject(value);
     }
 
     isRegExp(value) {

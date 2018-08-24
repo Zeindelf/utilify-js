@@ -101,6 +101,27 @@ globalHelpers.isNumber(123.45); // true
 globalHelpers.isNumber('string'); // false
 ```
 
+
+### globalHelpers.isNumeric(value)
+
+Check if the given value is numeric (String or Number).
+
+- **value**:
+  - Type: `Mixed`
+  - The value to check.
+
+#### Example
+
+```js
+globalHelpers.isNumeric(123); // true
+globalHelpers.isNumeric('123'); // true
+globalHelpers.isNumeric(1.23); // true
+globalHelpers.isNumeric('1.23'); // true
+globalHelpers.isNumeric(.1); // true
+globalHelpers.isNumeric('.1'); // true
+```
+
+
 ### globalHelpers.isObject(value)
 
 Check if the given value is an object
@@ -130,6 +151,26 @@ Verify if as objects is empty
 globalHelpers.isObjectEmpty({}); // true
 globalHelpers.isObjectEmpty({foo: 'Foo'}); // false
 ```
+
+
+### globalHelpers.isPercentage(percentage)
+
+Returns whether a value is a percentage.
+
+- **percentage**:
+  - Type: `Mixed`
+  - The percentage to test.
+
+#### Example
+
+```js
+globalHelpers.isPercentage(0); // true
+globalHelpers.isPercentage(100); // true
+globalHelpers.isPercentage(10.2); // true
+globalHelpers.isPercentage(-4); // false
+globalHelpers.isPercentage(102); // false
+```
+
 
 ### globalHelpers.isPlainObject(value)
 
