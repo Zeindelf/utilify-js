@@ -1,4 +1,5 @@
 
+import cookies from './utils/vendor.cookies.js';
 import store from './utils/vendor.store.js';
 
 import GlobalHelpers from './class/GlobalHelpers.js';
@@ -39,6 +40,12 @@ class Utilify {
          * @type {Object}
          */
         this.storage = store;
+
+        /**
+         * JS Cookies
+         * @type {Object}
+         */
+        this.cookies = cookies(function() {});
     }
 }
 

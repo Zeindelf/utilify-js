@@ -4,7 +4,7 @@ const pkg = require('./package');
 
 const now = new Date();
 const banner = `
-/*!!
+/*@preserve
  * Utilify.js v${pkg.version}
  * https://github.com/${pkg.repository}
  *

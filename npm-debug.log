@@ -1,0 +1,49 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'release' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.0
+4 verbose run-script [ 'prerelease', 'release', 'postrelease' ]
+5 info lifecycle utilify-js@0.7.1~prerelease: utilify-js@0.7.1
+6 silly lifecycle utilify-js@0.7.1~prerelease: no script for prerelease, continuing
+7 info lifecycle utilify-js@0.7.1~release: utilify-js@0.7.1
+8 verbose lifecycle utilify-js@0.7.1~release: unsafe-perm in lifecycle true
+9 verbose lifecycle utilify-js@0.7.1~release: PATH: C:\Users\wellington.barreto\AppData\Roaming\nvm\v6.9.0\node_modules\npm\bin\node-gyp-bin;E:\GeneralProjects\utilify-js\node_modules\.bin;M:\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;M:\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Users\wellington.barreto\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\PuTTY;C:\HashiCorp\Vagrant\bin;C:\wamp64\bin\php\php5.6.35;C:\ProgramData\ComposerSetup\bin;C:\Program Files (x86)\Skype\Phone;C:\Users\wellington.barreto\AppData\Local\Microsoft\WindowsApps;C:\Users\wellington.barreto\AppData\Local\Programs\Fiddler;C:\Users\wellington.barreto\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Microsoft VS Code\bin;C:\Users\wellington.barreto\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+10 verbose lifecycle utilify-js@0.7.1~release: CWD: E:\GeneralProjects\utilify-js
+11 silly lifecycle utilify-js@0.7.1~release: Args: [ '/d /s /c',
+11 silly lifecycle   'npm run clear && npm run lint && npm run build && npm run compress && npm test' ]
+12 silly lifecycle utilify-js@0.7.1~release: Returned: code: 1  signal: null
+13 info lifecycle utilify-js@0.7.1~release: Failed to exec release script
+14 verbose stack Error: utilify-js@0.7.1 release: `npm run clear && npm run lint && npm run build && npm run compress && npm test`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (C:\Users\wellington.barreto\AppData\Roaming\nvm\v6.9.0\node_modules\npm\lib\utils\lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (C:\Users\wellington.barreto\AppData\Roaming\nvm\v6.9.0\node_modules\npm\lib\utils\spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid utilify-js@0.7.1
+16 verbose cwd E:\GeneralProjects\utilify-js
+17 error Windows_NT 10.0.17134
+18 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "release"
+19 error node v6.9.0
+20 error npm  v3.10.8
+21 error code ELIFECYCLE
+22 error utilify-js@0.7.1 release: `npm run clear && npm run lint && npm run build && npm run compress && npm test`
+22 error Exit status 1
+23 error Failed at the utilify-js@0.7.1 release script 'npm run clear && npm run lint && npm run build && npm run compress && npm test'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the utilify-js package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     npm run clear && npm run lint && npm run build && npm run compress && npm test
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs utilify-js
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls utilify-js
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

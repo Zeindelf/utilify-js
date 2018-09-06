@@ -229,6 +229,10 @@ class GlobalHelpers {
         return stringHelpers.pad(number, size);
     }
 
+    parseJwt(token) {
+        return globalHelpers.parseJwt(token);
+    }
+
     removeAccent(str) {
         return stringHelpers.removeAccent(str);
     }

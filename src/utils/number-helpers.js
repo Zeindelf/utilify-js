@@ -1,5 +1,5 @@
 
-// import validateHelpers from './validate-helpers.js';
+import validateHelpers from './validate-helpers.js';
 
 export default {
     /**
@@ -34,7 +34,7 @@ export default {
 
         // Make sure value is a number
         number = ((num) => {
-            if ( typeof num !== 'number' ) {
+            if ( validateHelpers.isNum(num) ) {
                 throw new Error('Input value is not a number');
             }
 
@@ -88,6 +88,10 @@ export default {
         if ( number.toString().length !== value.toString().length ) {
             return value;
         }
+
+        // if ( validateHelpers.isArray(value) ) {
+        //     return this.toNumber(param.map((a) => num(a)));
+        // }
 
         return Number.isNaN(number) ? value : number;
     },
