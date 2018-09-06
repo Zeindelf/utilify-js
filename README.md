@@ -10,6 +10,7 @@ Global and most common helpers for javascript
 
 - [Main](#main)
 - [Getting started](#getting-started)
+- [External Libs](#external-libs)
 - [Methods](#methods)
 - [Tests](#tests)
 - [License](#license)
@@ -69,6 +70,31 @@ var globalHelpers = utilify.globalHelpers;
 // LocationHelpers
 var locationHelpers = utilify.locationHelpers;
 ```
+
+## External Libs
+
+### Store2
+Docs for `Store2` can be found on original repository: [https://github.com/nbubna/store](https://github.com/nbubna/store)
+
+Version inside is: `v2.7.0`
+
+Usage:
+```js
+// Store2
+var store = utilify.storage;
+```
+
+### JavaScript Cookie
+Docs for `JavaScript Cookie` can be found on original repository: https://github.com/js-cookie/js-cookie
+
+Version inside is: `v2.2.0`
+
+Usage:
+```js
+// JavaScript Cookie
+var cookies = utilify.cookies;
+```
+
 
 ## Methods
 
