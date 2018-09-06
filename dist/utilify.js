@@ -1,12 +1,12 @@
 
 /*@preserve
- * Utilify.js v0.7.1
+ * Utilify.js v0.8.0
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-09-06T19:54:08.165Z
+ * Date: 2018-09-06T22:18:47.137Z
  */
 
 (function (global, factory) {
@@ -1201,6 +1201,14 @@ var globalHelpers = {
 
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     },
+    parseJwt: function parseJwt(token) {
+        var b64DecodeUnicode = function b64DecodeUnicode(str) {
+            return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        };
+        return JSON.parse(b64DecodeUnicode(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    },
 
 
     /**
@@ -2209,7 +2217,7 @@ var numberHelpers = {
 
         // Make sure value is a number
         number = function (num) {
-            if (validateHelpers.isNum(num)) {
+            if (!validateHelpers.isNumber(num)) {
                 throw new Error('Input value is not a number');
             }
 
@@ -2813,6 +2821,11 @@ var GlobalHelpers = function () {
             return stringHelpers.pad(number, size);
         }
     }, {
+        key: 'parseJwt',
+        value: function parseJwt(token) {
+            return globalHelpers.parseJwt(token);
+        }
+    }, {
         key: 'removeAccent',
         value: function removeAccent(str) {
             return stringHelpers.removeAccent(str);
@@ -3124,7 +3137,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.7.1';
+  this.version = '0.8.0';
 
   /**
    * Package name

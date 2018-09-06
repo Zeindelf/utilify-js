@@ -34,7 +34,7 @@ export default {
 
         // Make sure value is a number
         number = ((num) => {
-            if ( validateHelpers.isNum(num) ) {
+            if ( !validateHelpers.isNumber(num) ) {
                 throw new Error('Input value is not a number');
             }
 
