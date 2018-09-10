@@ -1,5 +1,5 @@
 
-import validateHelpers from './validate-helpers.js';
+import validateHelpers from './validate-helpers';
 
 export default {
     /**
@@ -183,6 +183,33 @@ export default {
     },
 
     /**
+     * Split array elements by separator - PHP implode alike
+     *
+     * @category Array
+     * @param {String} str - String to split
+     * @param {string} separator - The separator
+     * @param {Number} limit - Limit splitted elements
+     * @return {Array} The array with values
+     * @example
+     *     explode('a', '.', 2); // ['a']
+     *     explode('a.b', '.', 2); // ['a', 'b']
+     *     explode('a.b.c', '.', 2); // ['a', 'b.c']
+     */
+    explode(str, separator, limit) {
+        if ( !validateHelpers.isString(str) ) {
+            throw new Error(`'str' must be a String`);
+        }
+
+        const arr = str.split(separator);
+
+        if ( limit !== undefined && arr.length >= limit ) {
+            arr.push(arr.splice(limit - 1).join(separator));
+        }
+
+        return arr;
+    },
+
+    /**
      * Join array elements with glue string - PHP implode alike
      *
      * @category Array
@@ -210,30 +237,21 @@ export default {
     },
 
     /**
-     * Split array elements by separator - PHP implode alike
+     * Returns all indices of val in an array. If val never occurs, returns [].
      *
-     * @category Array
-     * @param {String} str - String to split
-     * @param {string} separator - The separator
-     * @param {Number} limit - Limit splitted elements
-     * @return {Array} The array with values
+     * @param  {Array}   arr   The array.
+     * @param  {Mix}     val   Value to find.
+     * @returns {Array}        Array with indexes.
      * @example
-     *     explode('a', '.', 2); // ['a']
-     *     explode('a.b', '.', 2); // ['a', 'b']
-     *     explode('a.b.c', '.', 2); // ['a', 'b.c']
+     *     const arr = ['foo', 'bar', 'baz', 'foz', 'foo'];
+     *     const arr2 = [1, 2, 4, 7, 2, 8, 6, 2, 6, 8];
+     *
+     *     indexOfAll(arr, 'foo') // [0, 4]
+     *     indexOfAll(arr, 'bar') // [1]
+     *     indexOfAll(arr2, 2) // [1, 4, 7]
      */
-    explode(str, separator, limit) {
-        if ( !validateHelpers.isString(str) ) {
-            throw new Error(`'str' must be a String`);
-        }
-
-        const arr = str.split(separator);
-
-        if ( limit !== undefined && arr.length >= limit ) {
-            arr.push(arr.splice(limit - 1).join(separator));
-        }
-
-        return arr;
+    indexOfAll(arr, val) {
+        return arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
     },
 
     /**

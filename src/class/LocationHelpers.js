@@ -1,5 +1,5 @@
 
-import locationHelpers from './../utils/location-helpers.js';
+import locationHelpers from '../utils/location-helpers';
 
 /**
  * Create a LocationHelpers class

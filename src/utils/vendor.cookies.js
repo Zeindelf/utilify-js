@@ -1,5 +1,5 @@
 
-/* !
+/**
  * JavaScript Cookie v2.2.0
  * https://github.com/js-cookie/js-cookie
  *
@@ -23,7 +23,7 @@ function decode(s) {
     return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
 }
 
-function init(converter) {
+export const initCookies = (converter) => {
     function api() {}
 
     function set(key, value, attributes) {
@@ -137,9 +137,7 @@ function init(converter) {
 
     api.defaults = {};
 
-    api.withConverter = init;
+    api.withConverter = initCookies;
 
     return api;
 }
-
-export default init;

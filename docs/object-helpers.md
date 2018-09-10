@@ -28,7 +28,8 @@ Extend the given object
 var obj1 = {foo: 'Foo', bar: 'Bar'};
 var obj2 = {foz: 'Foz', baz: 'Baz'};
 
-globalHelpers.extend({}, obj1, obj2); // {foo: 'Foo', bar: 'Bar', foz: 'Foz', baz: 'Baz'}
+globalHelpers.extend({}, obj1, obj2);
+//=> {foo: 'Foo', bar: 'Bar', foz: 'Foz', baz: 'Baz'}
 ```
 
 
@@ -55,7 +56,45 @@ vat obj = {
   },
 };
 
-globalHelpers.getDescendantProp(obj, 'foo.bar.baz'); // Baz
+globalHelpers.getDescendantProp(obj, 'foo.bar.baz');
+//=> Baz
+```
+
+
+
+### globalHelpers.groupObjectByValue(item, key[, camelize])
+
+Group an array of objects by same properties value
+
+Returns new object with a key grouped values
+
+- **item**:
+  - Type: `Array`
+  - An array of objects
+
+- **key**:
+  - Type: `String`
+  - The key where the values are grouped
+
+- **camelize** (optional):
+  - Type: `Boolean`
+  - Default: `false`
+  - Camlize key (e.g. `John Smith` or `john-smith` turn into `johnSmith`)
+
+#### Example
+
+```js
+var objToGroup = [
+    { name: 'John', age: 20 },
+    { name: 'Mary', age: 20 },
+    { name: 'Smith', age: 18 },
+    { name: 'John', age: 22 },
+];
+
+groupObjectByValue(objToGroup, 'age');
+//=> { 18: [{ name: 'Smith', age: 18 }], 20: [{ name: 'John', age: 20 }, { name: 'Mary', age: 20 }], 22: { name: 'John', age: 22 } }
+groupObjectByValue(objToGroup, 'name', true);
+//=> { john: [{ name: 'John', age: 22 }, { name: 'John', age: 20 }], mary: [{ name: 'Mary', age: 20 }], smith: [{ name: 'Smith', age: 18 }] }
 ```
 
 
@@ -71,10 +110,14 @@ Return the length of an item (Object mostly)
 #### Example
 
 ```js
-globalHelpers.length('Validate string'); // 15
-globalHelpers.length([1, 2, 3, 4, 5]); // 5
-globalHelpers.length({foo: 'Foo', bar: 'Bar'}); 2
-globalHelpers.length([{foo: 'Foo'}, {bar: 'Bar'}, {baz: 'Baz'}]); 3
+globalHelpers.length('Validate string');
+//=> 15
+globalHelpers.length([1, 2, 3, 4, 5]);
+//=> 5
+globalHelpers.length({foo: 'Foo', bar: 'Bar'});
+//=> 2
+globalHelpers.length([{foo: 'Foo'}, {bar: 'Bar'}, {baz: 'Baz'}]);
+//=> 3
 ```
 
 
@@ -155,7 +198,8 @@ var data = [{
     }]
 }];
 
-globalHelpers.objectSearch(data, {id: 4}); // { id: 4, name: 'key 4'};
+globalHelpers.objectSearch(data, {id: 4});
+//=> { id: 4, name: 'key 4'};
 ```
 
 
@@ -171,9 +215,32 @@ Convert object given into an array values
 
 ```js
 var obj = {
-  a: 'a',
-  b: 'b'
+  a: 'foo',
+  b: 'bar'
 };
 
-objectToArray(obj); // ['a', 'b']
+objectToArray(obj);
+//=> ['foo', 'bar']
+```
+
+
+### globalHelpers.renameKeys(obj, keysMap)
+
+Replaces the names of multiple object keys with the values provided.
+
+- **obj**:
+  - Type: `Object`
+  - The plain object
+
+- **keysMap**:
+  - Type: `Object`
+  - Object with key and value to replace
+
+#### Example
+
+```js
+var obj = { name: 'John', surename: 'Smith', age: 20 };
+
+renameKeys(obj, { name: 'firstName', surename: 'lastName' });
+//=> { firstName: 'John', lastName: 'Smith', age: 20 }
 ```

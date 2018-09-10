@@ -11,7 +11,8 @@ Capitalize a string
 #### Example
 
 ```js
-globalHelpers.capitalize('foo bar'); // 'Foo Bar'
+globalHelpers.capitalize('foo bar');
+//=> 'Foo Bar'
 ```
 
 
@@ -29,7 +30,7 @@ Replace <, >, &, ', " and / with HTML entities.
 var markup = '<p>"Lorem ipsum"</p>';
 
 globalHelpers.escape(markup);
-// &lt;p&gt;&quot;Lorem ipsum&quot;&lt;&#x2F;p&gt;
+//=> &lt;p&gt;&quot;Lorem ipsum&quot;&lt;&#x2F;p&gt;
 ```
 
 ### globalHelpers.normalizeText(str)
@@ -41,7 +42,8 @@ Normalize text adding first character to upper after punctuations (. ? !)
   - The text
 
 ```js
-globalHelpers.normalizeText('foo bar foz. Foo Bar  Foz! foo foo?') // 'Foo bar foz. Foo bar foz! Foo foo?'
+globalHelpers.normalizeText('foo bar foz. Foo Bar  Foz! foo foo?');
+//=> 'Foo bar foz. Foo bar foz! Foo foo?'
 ```
 
 
@@ -61,17 +63,28 @@ Zero padding number
 #### Example
 
 ```js
-globalHelpers.pad(1, 1); // 1
-globalHelpers.pad(1); // 01
-globalHelpers.pad(5); // 05 
-globalHelpers.pad(10); // 10
-globalHelpers.pad(1.1); // 1.1
-globalHelpers.pad(255); // 255
-globalHelpers.pad(2.55); // 2.55
-globalHelpers.pad(1, 2); // 01
-globalHelpers.pad(9, 2); // 09
-globalHelpers.pad(10, 2); // 10
-globalHelpers.pad(10, 3); // 010
+globalHelpers.pad(1, 1);
+//=> 1
+globalHelpers.pad(1);
+//=> 01
+globalHelpers.pad(5);
+//=> 05
+globalHelpers.pad(10);
+//=> 10
+globalHelpers.pad(1.1);
+//=> 1.1
+globalHelpers.pad(255);
+//=> 255
+globalHelpers.pad(2.55);
+//=> 2.55
+globalHelpers.pad(1, 2);
+//=> 01
+globalHelpers.pad(9, 2);
+//=> 09
+globalHelpers.pad(10, 2);
+//=> 10
+globalHelpers.pad(10, 3);
+//=> 010
 ...
 ```
 
@@ -87,7 +100,8 @@ Remove accents from a strin
 #### Example
 
 ```js
-globalHelpers.removeAccent('Olá Mündô!'); // 'Ola Mundo!'
+globalHelpers.removeAccent('Olá Mündô!');
+//=> 'Ola Mundo!'
 ```
 
 
@@ -102,7 +116,8 @@ Slugify a text, removing/replacing all special characters and spaces with dashes
 #### Example
 
 ```js
-globalHelpers.slugifyText('Olá Mundo!'); // 'ola-mundo'
+globalHelpers.slugifyText('Olá Mundo!');
+//=> 'ola-mundo'
 ```
 
 
@@ -117,7 +132,8 @@ Compacts whitespace in the string to a single space and trims the ends.
 #### Example
 
 ```js
-globalHelpers.strCompact('  Foo  Bar    Baz  ') // 'Foo Bar Baz'
+globalHelpers.strCompact('  Foo  Bar    Baz  ');
+//=> 'Foo Bar Baz'
 ```
 
 
@@ -140,8 +156,10 @@ Multiple string replace, PHP str_replace clone
 #### Example
 
 ```js
-globalHelpers.strReplace(['olá', 'mundo'], ['hello', 'world'], 'olá mundo'); // 'hello world'
-globalHelpers.strReplace(['um', 'dois'], 'olá', 'um dois três'); // Output 'olá olá três'
+globalHelpers.strReplace(['olá', 'mundo'], ['hello', 'world'], 'olá mundo');
+//=> 'hello world'
+globalHelpers.strReplace(['um', 'dois'], 'olá', 'um dois três');
+//=> 'olá olá três'
 ```
 
 
@@ -154,7 +172,8 @@ Remove leading and trailing empty spaces.
   - The string
 
 ```js
-globalHelpers.trim('  Foo  ') // 'Foo'
+globalHelpers.trim('  Foo  ');
+//=> 'Foo'
 ```
 
 ### globalHelpers.ucfirst(str)
@@ -166,7 +185,8 @@ Make a string's first character uppercase
   - The string
 
 ```js
-globalHelpers.ucfirst('foo bar foz') // 'Foo bar foz'
+globalHelpers.ucfirst('foo bar foz');
+//=> 'Foo bar foz'
 ```
 
 
@@ -181,8 +201,10 @@ Converts hyphens and camel casing to underscores.
   - String to convert
 
 ```js
-globalHelpers.underscore('camelCase') // 'camel_case'
-globalHelpers.underscore('kebab-case') // 'kebab_case'
+globalHelpers.underscore('camelCase');
+//=> 'camel_case'
+globalHelpers.underscore('kebab-case');
+//=> 'kebab_case'
 ```
 
 
@@ -198,5 +220,5 @@ Replaces HTML encoded entities with <, >, &, ', " and /.
 var markup = '&lt;p&gt;&quot;Lorem ipsum&quot;&lt;&#x2F;p&gt;';
 
 globalHelpers.unescape(markup);
-// <p>"Lorem ipsum"</p>
+//=> <p>"Lorem ipsum"</p>
 ```

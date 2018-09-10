@@ -1,5 +1,5 @@
 
-import validateHelpers from './validate-helpers.js';
+import validateHelpers from './validate-helpers';
 
 export default {
     /**

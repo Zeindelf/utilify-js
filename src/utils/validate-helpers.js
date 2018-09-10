@@ -1,5 +1,5 @@
 
-import globalHelpers from './global-helpers.js';
+import globalHelpers from './global-helpers';
 
 // cache some methods to call later on
 const toString = Object.prototype.toString;

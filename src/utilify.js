@@ -1,9 +1,9 @@
 
-import cookies from './utils/vendor.cookies.js';
-import store from './utils/vendor.store.js';
+import {initCookies} from './utils/vendor.cookies';
+import store from './utils/vendor.store';
 
-import GlobalHelpers from './class/GlobalHelpers.js';
-import LocationHelpers from './class/LocationHelpers.js';
+import GlobalHelpers from './class/GlobalHelpers';
+import LocationHelpers from './class/LocationHelpers';
 
 /**
  * Create a Utilify class
@@ -45,7 +45,7 @@ class Utilify {
          * JS Cookies
          * @type {Object}
          */
-        this.cookies = cookies(function() {});
+        this.cookies = initCookies(function() {});
     }
 }
 

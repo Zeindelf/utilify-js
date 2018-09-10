@@ -1,6 +1,6 @@
 
-import validateHelpers from './validate-helpers.js';
-import stringHelpers from './string-helpers.js';
+import validateHelpers from './validate-helpers';
+import stringHelpers from './string-helpers';
 
 export default {
     /**
@@ -339,6 +339,7 @@ export default {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     },
 
+
     parseJwt(token) {
         let b64DecodeUnicode = (str) =>
             decodeURIComponent(Array.prototype.map.call(atob(str), (c) =>
@@ -460,6 +461,28 @@ export default {
     stripHttp(url) {
         let newUrl = url;
         return newUrl.replace(/^https?:/, '');
+    },
+
+    /**
+     * Native javascript function to emulate the PHP function strip_tags.
+     *
+     * @param {String}        str       The original HTML string to filter.
+     * @param {String|Array}  allowed   A tag name or array of tag names to keep
+     * @returns {string} The filtered HTML string.
+     * @example
+     */
+    stripTags(input, allowed) {
+        allowed = (((allowed || '') + '')
+            .toLowerCase()
+            .match(/<[a-z][a-z0-9]*>/g) || [])
+            .join(''); // Making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+
+        const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+        const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+
+        return stringHelpers.strCompact(input.replace(commentsAndPhpTags, '')
+            .replace(tags, ($0, $1) =>
+                allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ' '));
     },
 
     /**

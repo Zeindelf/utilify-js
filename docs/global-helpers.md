@@ -87,10 +87,15 @@ Check if value contains in an element
 ```js
 var str = 'Lorem ipsum dolor amet';
 var arr = ['Lorem', 'ipsum', 'dolor', 'amet'];
-globalHelpers.contains('Lorem', str); // true
-globalHelpers.contains('lorem', str); // false
-globalHelpers.contains('amet', arr); // true
-globalHelpers.contains('Dolor', arr); // false
+
+globalHelpers.contains('Lorem', str);
+//=> true
+globalHelpers.contains('lorem', str);
+//=> false
+globalHelpers.contains('amet', arr);
+//=> true
+globalHelpers.contains('Dolor', arr);
+//=> false
 ```
 
 
@@ -141,9 +146,13 @@ Get variable type
 #### Example
 
 ```js
-globalHelpers.getType(123); // 'number'
-globalHelpers.getType([]); // 'array'
-globalHelpers.getType({}); // 'object'
+globalHelpers.getType(123);
+//=> 'number'
+globalHelpers.getType([]);
+//=> 'array'
+globalHelpers.getType({});
+//=> 'object'
+
 // and so on...
 ```
 
@@ -165,20 +174,25 @@ Get url params from a query string
 
 ```js
 // URL: https://site.com?param1=foo&param2=bar
-globalHelpers.getUrlParameter('param1'); // foo
-globalHelpers.getUrlParameter('param2'); // bar
+globalHelpers.getUrlParameter('param1');
+//=> foo
+globalHelpers.getUrlParameter('param2');
+//=> bar
 
 // Given entry point
 var url = 'http://www.site.com?param1=foo&param2=bar&param3=baz';
-globalHelpers.getUrlParameter('param3', url); // baz
+globalHelpers.getUrlParameter('param3', url);
+//=> baz
 
 // Given partial entry point
 var url = '?param1=foo&param2=bar&param3=baz';
-globalHelpers.getUrlParameter('param2', url); // bar
+globalHelpers.getUrlParameter('param2', url);
+//=> bar
 
 // Given partial entry point without '?'
 var url = 'param1=foo&param2=bar&param3=baz';
-globalHelpers.getUrlParameter('param1', url); // foo
+globalHelpers.getUrlParameter('param1', url);
+//=> foo
 ```
 
 
@@ -206,8 +220,10 @@ Resize image by aspect ratio
 #### Example
 
 ```js
-globalHelpers.resizeImageByRatio('width', 1920, 16/9); // {width: 1920, height: 1080}
-globalHelpers.resizeImageByRatio('height', 150, 16/9, 2); // {width: 266.67, height: 150}
+globalHelpers.resizeImageByRatio('width', 1920, 16/9);
+//=> { width: 1920, height: 1080 }
+globalHelpers.resizeImageByRatio('height', 150, 16/9, 2);
+//=> { width: 266.67, height: 150 }
 ```
 
 
@@ -228,9 +244,12 @@ If the semver string `v1` is greater than `v2`, return 1. If the semver string `
 #### Example
 
 ```js
-globalHelpers.semverCompare('1.0.0', '1.0.1'); // -1
-globalHelpers.semverCompare('1.0.0', '1.0.0'); // 0
-globalHelpers.semverCompare('1.0.0', '0.9.0'); // 1
+globalHelpers.semverCompare('1.0.0', '1.0.1');
+//=> -1
+globalHelpers.semverCompare('1.0.0', '1.0.0');
+//=> 0
+globalHelpers.semverCompare('1.0.0', '0.9.0');
+//=> 1
 ```
 
 
@@ -247,7 +266,8 @@ Removes the host from an url
 #### Example
 
 ```js
-globalHelpers.stripHost("http://test.com.br/contact/test"); //  "/contact/test"
+globalHelpers.stripHost('http://site.com.br/contact/test');
+//=> '/contact/test'
 ```
 
 
@@ -262,9 +282,41 @@ Removes the protocol from an url
 #### Example
 
 ```js
-globalHelpers.stripHttp('http://test.com.br/contact/test'); // '//test.com.br/contact/test'
-globalHelpers.stripHttp('https://test.com.br/contact/test'); // '//test.com.br/contact/test'
+globalHelpers.stripHttp('http://test.com.br/contact/test');
+//=> '//test.com.br/contact/test'
+globalHelpers.stripHttp('https://test.com.br/contact/test');
+//=> '//test.com.br/contact/test'
 ```
+
+
+### globalHelpers.stripTags(input[, allowed])
+
+Native javascript function to emulate the PHP function strip_tags.
+
+- **input**:
+  - Type: `String`
+  - The original HTML string to filter.
+
+- **allowed** (optional):
+  - Type: `String|Array`
+  - Default: `null`
+  - A tag name or array of tag names to keep
+
+#### Example
+
+```js
+var html = '<header class="header"><h1 class="header__title">Title</h1><h2 class="header__subtitle">Subtitle</h2></header>';
+
+stripTags(html);
+//=> 'Title Subtitle'
+stripTags(html, '<h1>');
+//=> '<h1 class="header__title">Title</h1> Subtitle'
+stripTags(html, ['<h1>', '<h2>']);
+//=> '<h1 class="header__title">Title</h1><h2 class="header__subtitle">Subtitle</h2>'
+stripTags(html, '<h1><h2>') // Works with an single string with 'n' tags
+//=> '<h1 class="header__title">Title</h1><h2 class="header__subtitle">Subtitle</h2>'
+```
+
 
 
 ### globalHelpers.throttle(func[, wait[, options]])
@@ -305,7 +357,7 @@ $(window).on('popstate', throttled.cancel);
 
 ### globalHelpers.times(n, iteratee)
 
-Invokes the iteratee `n` times, returning an array of the results of each invocation. The iteratee is invoked with one argumentindex).
+Invokes the iteratee `n` times, returning an array of the results of each invocation. The iteratee is invoked with one argument index.
 
 **@Method from Lodash**
 
@@ -339,5 +391,6 @@ Unserialize a query string into an object
 ```js
 // str can be '?param1=foo&param2=bar&param3=baz', 'param1=foo&param2=bar&param3=baz' or a full url
 var url = 'http://www.site.com?param1=foo&param2=bar&param3=baz';
-globalHelpers.unserialize(url); // {param1: 'foo', param2: 'bar', param3: 'baz'}
+globalHelpers.unserialize(url);
+//=> { param1: 'foo', param2: 'bar', param3: 'baz' }
 ```

@@ -71,10 +71,12 @@ var globalHelpers = utilify.globalHelpers;
 var locationHelpers = utilify.locationHelpers;
 ```
 
+
+
 ## External Libs
 
 ### Store2
-Docs for `Store2` can be found on original repository: [https://github.com/nbubna/store](https://github.com/nbubna/store)
+Docs for `Store2` can be found on original repository: https://github.com/nbubna/store
 
 Version inside is: `v2.7.0`
 
@@ -94,6 +96,8 @@ Usage:
 // JavaScript Cookie
 var cookies = utilify.cookies;
 ```
+
+
 
 
 ## Methods

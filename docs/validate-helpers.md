@@ -11,9 +11,12 @@ Check if the given value is an array.
 #### Example
 
 ```js
-globalHelpers.isArray([]); // true
-globalHelpers.isArray([{}, {}]); // true
-globalHelpers.isArray({}); // false
+globalHelpers.isArray([]);
+//=> true
+globalHelpers.isArray([{}, {}]);
+//=> true
+globalHelpers.isArray({});
+//=> false
 ```
 
 ### globalHelpers.isBoolean(value)
@@ -27,12 +30,18 @@ Check if the given value is a boolean value.
 #### Example
 
 ```js
-globalHelpers.isBoolean(true); // true
-globalHelpers.isBoolean(false); // true
-globalHelpers.isBoolean(!0); // true
-globalHelpers.isBoolean(!1); // true
-globalHelpers.isBoolean('true'); // false
-globalHelpers.isBoolean('false'); // false
+globalHelpers.isBoolean(true);
+//=> true
+globalHelpers.isBoolean(false);
+//=> true
+globalHelpers.isBoolean(!0);
+//=> true
+globalHelpers.isBoolean(!1);
+//=> true
+globalHelpers.isBoolean('true');
+//=> false
+globalHelpers.isBoolean('false');
+//=> false
 ```
 
 ### globalHelpers.isEmail(email)
@@ -46,8 +55,10 @@ Check if a string is a valid mail.
 #### Example
 
 ```js
-globalHelpers.isEmail('email@email.com'); // true
-globalHelpers.isEmail('email@email'); // false
+globalHelpers.isEmail('email@email.com');
+//=> true
+globalHelpers.isEmail('email@email');
+//=> false
 ```
 
 ### globalHelpers.isFunction(value)
@@ -64,8 +75,10 @@ Check if the given value is a function.
 var foo = function() {};
 var bar = '';
 
-globalHelpers.isFunction(foo); // true
-globalHelpers.isFunction(bar); // false
+globalHelpers.isFunction(foo);
+//=> true
+globalHelpers.isFunction(bar);
+//=> false
 ```
 
 ### globalHelpers.isJson(str)
@@ -81,8 +94,10 @@ Check if a string is a valid JSON.
 ```js
 var json = '{"foo": "Foo", "bar": "Bar"}';
 
-globalHelpers.isJson(json); // true
-globalHelpers.isJson('json'); // false
+globalHelpers.isJson(json);
+//=> true
+globalHelpers.isJson('json');
+//=> false
 ```
 
 ### globalHelpers.isNumber(value)
@@ -96,9 +111,12 @@ Check if the given value is a number.
 #### Example
 
 ```js
-globalHelpers.isNumber(123); // true
-globalHelpers.isNumber(123.45); // true
-globalHelpers.isNumber('string'); // false
+globalHelpers.isNumber(123);
+//=> true
+globalHelpers.isNumber(123.45);
+//=> true
+globalHelpers.isNumber('string');
+//=> false
 ```
 
 
@@ -113,12 +131,18 @@ Check if the given value is numeric (String or Number).
 #### Example
 
 ```js
-globalHelpers.isNumeric(123); // true
-globalHelpers.isNumeric('123'); // true
-globalHelpers.isNumeric(1.23); // true
-globalHelpers.isNumeric('1.23'); // true
-globalHelpers.isNumeric(.1); // true
-globalHelpers.isNumeric('.1'); // true
+globalHelpers.isNumeric(123);
+//=> true
+globalHelpers.isNumeric('123');
+//=> true
+globalHelpers.isNumeric(1.23);
+//=> true
+globalHelpers.isNumeric('1.23');
+//=> true
+globalHelpers.isNumeric(.1);
+//=> true
+globalHelpers.isNumeric('.1');
+//=> true
 ```
 
 
@@ -133,8 +157,10 @@ Check if the given value is an object
 #### Example
 
 ```js
-globalHelpers.isObject({foo: 'Foo'}); // true
-globalHelpers.isObject('Foo'); // false
+globalHelpers.isObject({foo: 'Foo'});
+//=> true
+globalHelpers.isObject('Foo');
+//=> false
 ```
 
 ### globalHelpers.isObjectEmpty(obj)
@@ -148,8 +174,10 @@ Verify if as objects is empty
 #### Example
 
 ```js
-globalHelpers.isObjectEmpty({}); // true
-globalHelpers.isObjectEmpty({foo: 'Foo'}); // false
+globalHelpers.isObjectEmpty({});
+//=> true
+globalHelpers.isObjectEmpty({foo: 'Foo'});
+//=> false
 ```
 
 
@@ -164,11 +192,16 @@ Returns whether a value is a percentage.
 #### Example
 
 ```js
-globalHelpers.isPercentage(0); // true
-globalHelpers.isPercentage(100); // true
-globalHelpers.isPercentage(10.2); // true
-globalHelpers.isPercentage(-4); // false
-globalHelpers.isPercentage(102); // false
+globalHelpers.isPercentage(0);
+//=> true
+globalHelpers.isPercentage(100);
+//=> true
+globalHelpers.isPercentage(10.2);
+//=> true
+globalHelpers.isPercentage(-4);
+//=> false
+globalHelpers.isPercentage(102);
+//=> false
 ```
 
 
@@ -183,9 +216,12 @@ Check if the given value is a plain object.
 #### Example
 
 ```js
-globalHelpers.isPlainObject({}); // true
-globalHelpers.isPlainObject([{}]); // false
-globalHelpers.isPlainObject('foo'); // false
+globalHelpers.isPlainObject({});
+//=> true
+globalHelpers.isPlainObject([{}]);
+//=> false
+globalHelpers.isPlainObject('foo');
+//=> false
 ```
 
 ### globalHelpers.isString(value)
@@ -199,9 +235,12 @@ Check if the given value is a string.
 #### Example
 
 ```js
-globalHelpers.isString('string'); // true
-globalHelpers.isString(123); // false
-globalHelpers.isString(123.45); // false
+globalHelpers.isString('string');
+//=> true
+globalHelpers.isString(123);
+//=> false
+globalHelpers.isString(123.45);
+//=> false
 ```
 
 ### globalHelpers.isUndefined(value)
@@ -215,8 +254,10 @@ Check if the given value is undefined.
 #### Example
 
 ```js
-globalHelpers.isUndefined(foo); // true
+globalHelpers.isUndefined(foo);
+//=> true
 
 var foo = 'Foo';
-globalHelpers.isUndefined(foo); // false
+globalHelpers.isUndefined(foo);
+//=> false
 ```

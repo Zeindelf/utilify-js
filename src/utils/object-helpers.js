@@ -1,6 +1,6 @@
 
-import validateHelpers from './validate-helpers.js';
-import globalHelpers from './global-helpers.js';
+import validateHelpers from './validate-helpers';
+import globalHelpers from './global-helpers';
 
 export default {
     /**
@@ -64,6 +64,39 @@ export default {
         }
 
         return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    },
+
+    /**
+     * Group an array of objects by same properties value
+     * Returns new object with a key grouped values
+     *
+     * @param  {Array}   item       An array of objects
+     * @param  {String}  key        The key where the values are grouped
+     * @param  {Boolean} camelize   Camlize key (e.g. 'John Smith' or 'john-smith' turn into johnSmith)
+     * @returns {Object}
+     * @example
+     *     const objToGroup = [
+     *         { name: 'John', age: 20 },
+     *         { name: 'Mary', age: 20 },
+     *         { name: 'Smith', age: 18 },
+     *         { name: 'John', age: 22 }
+     *     ];
+     *
+     *     groupObjectByValue(objToGroup, 'age') // { 18: [{ name: 'Smith', age: 18 }], 20: [{ name: 'John', age: 20 }, { name: 'Mary', age: 20 }], 22: { name: 'John', age: 22 } }
+     *     groupObjectByValue(objToGroup, 'name', true) // { john: [{ name: 'John', age: 22 }, { name: 'John', age: 20 }], mary: [{ name: 'Mary', age: 20 }], smith: [{ name: 'Smith', age: 18 }] }
+     */
+    groupObjectByValue(item, key, camelize = false) {
+        if ( !validateHelpers.isArray(item) ) {
+            throw new Error(`'item' must be an array of objects`);
+        }
+
+        const grouped = item.reduce((r, a) => {
+            r[a[key]] = r[a[key]] || [];
+            r[a[key]].push(a);
+            return r;
+        }, Object.create(null));
+
+        return ( camelize ) ? globalHelpers.camelize(grouped) : grouped;
     },
 
     /**
@@ -194,5 +227,27 @@ export default {
         }
 
         return Object.keys(obj).map((key) => obj[key]);
+    },
+
+    /**
+     * Replaces the names of multiple object keys with the values provided.
+     *
+     * @param  {Object}   obj       The plain object
+     * @param  {Object}   keysMap   Object with key and value to replace
+     * @returns {Object}
+     * @example
+     *     const obj = { name: 'John', surename: 'Smith', age: 20 };
+     *     renameKeys(obj, { name: 'firstName', surename: 'lastName' });
+     *     //=> { firstName: 'John', lastName: 'Smith', age: 20 }
+     */
+    renameKeys(obj, keysMap) {
+        if ( !validateHelpers.isPlainObject(obj) ) {
+            throw new Error(`'obj' must be an plain object`);
+        }
+
+        return Object.keys(obj).reduce((acc, key) => ({
+            ...acc,
+            ...{[keysMap[key] || key]: obj[key]},
+        }), {});
     },
 };

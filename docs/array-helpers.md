@@ -11,7 +11,8 @@ Creates a shallow clone of the array.
 #### Example
 
 ```js
-globalHelpers.arrayClone([1, 2, 3]); // [1, 2, 3] (it's a new array)
+globalHelpers.arrayClone([1, 2, 3]);
+//=> [1, 2, 3] (it's a new array)
 ```
 
 ### globalHelpers.arrayCompact(arr)
@@ -25,7 +26,8 @@ Remove all falsey values from an array.
 #### Example
 
 ```js
-globalHelpers.arrayCompact([null, a, undefined, 0, false, b, c, '', true]); // [a, b, c, true]
+globalHelpers.arrayCompact([null, a, undefined, 0, false, b, c, '', true]);
+//=> [a, b, c, true]
 ```
 
 ### globalHelpers.arrayFlatten(arr[, level])
@@ -46,7 +48,9 @@ You can optionally specify a limit, which will only flatten to that depth.
 
 ```js
 var arrToFlatten = [[1], [], 2, 3, [[4, 5]]];
-globalHelpers.arrayFlatten(arrToFlatten); // [1, 2, 3, 4, 5]
+
+globalHelpers.arrayFlatten(arrToFlatten);
+//=> [1, 2, 3, 4, 5]
 ```
 
 ### globalHelpers.arrayIntersection(arr1, arr2)
@@ -64,7 +68,8 @@ Returns a new array containing the intersection between two arrays given.
 #### Example
 
 ```js
-globalHelpers.arrayIntersection([1, 2, 3], [2, 3, 4]) // [2, 3]
+globalHelpers.arrayIntersection([1, 2, 3], [2, 3, 4]);
+//=> [2, 3]
 ```
 
 ### globalHelpers.arraySample(arr[, num[, remove]])
@@ -93,9 +98,12 @@ remove can also be passed in place of num.
 ```js
 var arrSample = [1, 2, 3, 4, 5];
 
-globalHelpers.arraySample(arrSample); // 5
-globalHelpers.arraySample(arrSample, 1); // [2]
-globalHelpers.arraySample(arrSample, 3); // [3, 4, 1]
+globalHelpers.arraySample(arrSample);
+//=> 5
+globalHelpers.arraySample(arrSample, 1);
+//=> [2]
+globalHelpers.arraySample(arrSample, 3);
+//=> [3, 4, 1]
 ```
 
 ### globalHelpers.arrayUnique(arr)
@@ -109,7 +117,8 @@ Return an array with unique values
 #### Example
 
 ```js
-globalHelpers.arrayUnique([1, 2, 2, 3, 4, 5, 5, 6]); // [1, 2, 3, 4, 5, 6]
+globalHelpers.arrayUnique([1, 2, 2, 3, 4, 5, 5, 6]);
+//=> [1, 2, 3, 4, 5, 6]
 ```
 
 ### globalHelpers.chunk(array[, size])
@@ -131,7 +140,9 @@ If array can't be split evenly, the final chunk will be the remaining elements.
 
 ```js
 var arr = [1, 2, 3, 4, 5, 6, 7];
-globalHelpers.chunk(arr, 2); // [1, 2] [3, 4] [5, 6] [7]
+
+globalHelpers.chunk(arr, 2);
+//=> [1, 2] [3, 4] [5, 6] [7]
 ```
 
 ### globalHelpers.cleanArray(array)
@@ -145,26 +156,8 @@ Removes empty index from a array
 #### Example
 
 ```js
-globalHelpers.cleanArray([1, 2, , 3, , , 4]); // [1, 2, 3, 4]
-```
-
-### globalHelpers.implode(pieces[, glue])
-
-Join array elements with glue string - PHP implode alike
-
-- **pieces**:
-  - Type: `Array | Object`
-  - The array|object to implode.  If object it will implode the values, not the keys.
-
-- **glue** (optional):
-  - Type: `String`
-  - Default: `,`
-  - The glue
-
-#### Example
-
-```js
-globalHelpers.implode(['Foo', 'Bar']); // 'Foo,Bar'
+globalHelpers.cleanArray([1, 2, , 3, , , 4]);
+//=> [1, 2, 3, 4]
 ```
 
 
@@ -188,10 +181,64 @@ Split array elements by separator - PHP implode alike
 #### Example
 
 ```js
-globalHelpers.explode('a', '.', 2); // ['a']
-globalHelpers.explode('a.b', '.', 2); // ['a', 'b']
-globalHelpers.explode('a.b.c', '.', 2); // ['a', 'b.c']
+globalHelpers.explode('a', '.', 2);
+//=> ['a']
+globalHelpers.explode('a.b', '.', 2);
+//=> ['a', 'b']
+globalHelpers.explode('a.b.c', '.', 2);
+//=> ['a', 'b.c']
 ```
+
+
+
+### globalHelpers.implode(pieces[, glue])
+
+Join array elements with glue string - PHP implode alike
+
+- **pieces**:
+  - Type: `Array | Object`
+  - The array|object to implode.  If object it will implode the values, not the keys.
+
+- **glue** (optional):
+  - Type: `String`
+  - Default: `,`
+  - The glue
+
+#### Example
+
+```js
+globalHelpers.implode(['Foo', 'Bar']);
+//=> 'Foo,Bar'
+```
+
+
+
+### globalHelpers.indexOfAll(arr, val)
+
+Returns all indices of val in an array. If val never occurs, returns [].
+
+- **arr**:
+  - Type: `Array | Object`
+  - The array.
+
+- **val**:
+  - Type: `Mix`
+  - Value to find.
+
+#### Example
+
+```js
+var arr = ['foo', 'bar', 'baz', 'foz', 'foo'];
+var arr2 = [1, 2, 4, 7, 2, 8, 6, 2, 6, 8];
+
+indexOfAll(arr, 'foo');
+//=> [0, 4]
+indexOfAll(arr, 'bar');
+//=> [1]
+indexOfAll(arr2, 2);
+//=> [1, 4, 7]
+```
+
 
 
 ### globalHelpers.shuffleArray(array)
@@ -205,7 +252,8 @@ Randomize a array elements with Fisher–Yates shuffle algorithm base
 #### Example
 
 ```js
-globalHelpers.shuffleArray([1, 2, 3, 4]); // [3, 2, 4, 1]
+globalHelpers.shuffleArray([1, 2, 3, 4]);
+//=> [3, 2, 4, 1]
 ```
 
 ### globalHelpers.slice(array[, start[, end]])
@@ -232,7 +280,11 @@ Creates a slice of `array` from `start` up to, but not including, `end`.
 
 ```js
 var arrSlice = [1, 2, 3, 4, 5];
-globalHelpers.slice(arrSlice); // [1, 2, 3, 4, 5]
-globalHelpers.slice(arrSlice, 2, 5); // [3, 4, 5]
-globalHelpers.slice(arrSlice, 1, 2); // [2]
+
+globalHelpers.slice(arrSlice);
+//=> [1, 2, 3, 4, 5]
+globalHelpers.slice(arrSlice, 2, 5);
+//=> [3, 4, 5]
+globalHelpers.slice(arrSlice, 1, 2);
+//=> [2]
 ```

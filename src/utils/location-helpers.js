@@ -1,7 +1,7 @@
 
-import validateHelpers from './validate-helpers.js';
-import stringHelpers from './string-helpers.js';
-import objectHelpers from './object-helpers.js';
+import validateHelpers from './validate-helpers';
+import stringHelpers from './string-helpers';
+import objectHelpers from './object-helpers';
 
 const CONSTANTS = {
     STORAGE_NAME: '__location',
@@ -13,6 +13,8 @@ export default {
      * Get user location by HTML5 Geolocate API and translate coordinates to
      * Brazilian State, City and Region
      *
+     * @param {Boolean}   cache     Save user coordinates into localstorage
+     * @param {Object}    storage   Store2 lib instance
      * @return {Promise}  When success, response are an object with State, City, Region and user Coordinates
      * @example
      *     locationHelpers.getCityState()
@@ -95,8 +97,6 @@ export default {
      *     locationHelpers.filteredRegion('SP'); // Sudeste
      */
     filteredRegion(state) {
-        this._validateStateInitials(state);
-
         let filteredRegion = '';
 
         for ( let region in this._regionMap ) {
@@ -121,9 +121,7 @@ export default {
      *     locationHelpers.filteredState('SP') // {initials: 'SP', name: 'São Paulo', region: 'Sudeste'}
      */
     filteredState(state) {
-        this._validateStateInitials(state);
-
-        return objectHelpers.objectSearch(this._stateMap, {name: state}, true);
+        return objectHelpers.objectSearch(this._stateMap, { name: state }, true);
     },
 
     getStates() {
@@ -132,18 +130,6 @@ export default {
 
     getRegions() {
         return this._regionMap;
-    },
-
-    /**
-     * Validate if state is an initials
-     *
-     * @param  {String} state State to validate
-     * @return {Error}        Return an error if state not an initials
-     */
-    _validateStateInitials(state) {
-        if ( state.length < 2 ) {
-            throw new Error(`'state' must be two letters. e.g. 'SP' or full state name`);
-        }
     },
 
     _stateMap: [

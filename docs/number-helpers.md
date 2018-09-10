@@ -17,8 +17,10 @@ Formats an integer number with dots/commas as thousands separators
 #### Example
 
 ```js
-globalHelpers.formatNumber(1234567) // '1.234.567'
-globalHelpers.formatNumber(1234567, ',') // '1,234,567'
+globalHelpers.formatNumber(1234567);
+//=> '1.234.567'
+globalHelpers.formatNumber(1234567, ',');
+//=> '1,234,567'
 ```
 
 
@@ -38,20 +40,29 @@ Convert long numbers into a human-readable format, e.g. 25000 to '25K'
 #### Example
 
 ```js
-globalHelpers.milify(1000) // '1K'
-globalHelpers.milify(1000000) // '1M'
-globalHelpers.milify(1234567) // '1.23M'
+globalHelpers.milify(1000);
+//=> '1K'
+globalHelpers.milify(1000000);
+//=> '1M'
+globalHelpers.milify(1234567);
+//=> '1.23M'
 ```
 
 ### globalHelpers.toNumber(value)
 
 Converts a value to a number if possible.
 
+Acceps an array with numbers to convert
+
 - **value**:
   - Type: `Mix`
   - The value to convert
 
 ```js
-globalHelpers.toNumber('123') // 123
-globalHelpers.toNumber('123.456') // 123.456
+globalHelpers.toNumber('123');
+//=> 123
+globalHelpers.toNumber('123.456');
+//=> 123.456
+globalHelpers.toNumber(['0.123', '1.123', '.13567', '123', '123.54']);
+//=> [0.123, 1.123, 0.13567, 123, 123.54]
 ```

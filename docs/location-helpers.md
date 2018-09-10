@@ -9,7 +9,8 @@ Get user location by HTML5 Geolocate API and translate coordinates to Brazilian 
 ```js
 locationHelpers.getUserLocation()
   .then(function(res) {
-    window.console.log(res); // When success, response are an object with State, City, Region and user Coordinates
+    window.console.log(res);
+    // When success, response are an object with State, City, Region and user Coordinates
   })
   .fail(function(err) {
     window.console.log(err);
@@ -27,7 +28,8 @@ Get Brazilian region for an state initials given
 #### Example
 
 ```js
-locationHelpers.filteredRegion('SP'); // Sudeste
+locationHelpers.filteredRegion('SP');
+//=> Sudeste
 ```
 
 ### locationHelpers.filteredState(state)
@@ -41,5 +43,6 @@ Get Brazilian name state and region for an state initials given
 #### Example
 
 ```js
-locationHelpers.filteredState('SP') // {initials: 'SP', name: 'São Paulo', region: 'Sudeste'}
+locationHelpers.filteredState('SP');
+//=> { initials: 'SP', name: 'São Paulo', region: 'Sudeste' }
 ```

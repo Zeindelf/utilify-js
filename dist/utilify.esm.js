@@ -6,10 +6,10 @@
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-09-06T22:18:47.137Z
+ * Date: 2018-09-10T04:45:47.847Z
  */
 
-/* !
+/**
  * JavaScript Cookie v2.2.0
  * https://github.com/js-cookie/js-cookie
  *
@@ -33,7 +33,7 @@ function decode(s) {
     return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
 }
 
-function init(converter) {
+var initCookies = function initCookies(converter) {
     function api() {}
 
     function set(key, value, attributes) {
@@ -141,10 +141,10 @@ function init(converter) {
 
     api.defaults = {};
 
-    api.withConverter = init;
+    api.withConverter = initCookies;
 
     return api;
-}
+};
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -189,6 +189,20 @@ var defineProperty = function (obj, key, value) {
   }
 
   return obj;
+};
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
 };
 
 var toConsumableArray = function (arr) {
@@ -1326,6 +1340,26 @@ var globalHelpers = {
 
 
     /**
+     * Native javascript function to emulate the PHP function strip_tags.
+     *
+     * @param {String}        str       The original HTML string to filter.
+     * @param {String|Array}  allowed   A tag name or array of tag names to keep
+     * @returns {string} The filtered HTML string.
+     * @example
+     */
+    stripTags: function stripTags(input, allowed) {
+        allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // Making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+
+        var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+        var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+
+        return stringHelpers.strCompact(input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+            return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ' ';
+        }));
+    },
+
+
+    /**
      * Creates a throttled function that only invokes `func` at most once per
      * every `wait` milliseconds (or once per browser frame). The throttled function
      * comes with a `cancel` method to cancel delayed `func` invocations and a
@@ -1999,6 +2033,34 @@ var arrayHelpers = {
 
 
     /**
+     * Split array elements by separator - PHP implode alike
+     *
+     * @category Array
+     * @param {String} str - String to split
+     * @param {string} separator - The separator
+     * @param {Number} limit - Limit splitted elements
+     * @return {Array} The array with values
+     * @example
+     *     explode('a', '.', 2); // ['a']
+     *     explode('a.b', '.', 2); // ['a', 'b']
+     *     explode('a.b.c', '.', 2); // ['a', 'b.c']
+     */
+    explode: function explode(str, separator, limit) {
+        if (!validateHelpers.isString(str)) {
+            throw new Error('\'str\' must be a String');
+        }
+
+        var arr = str.split(separator);
+
+        if (limit !== undefined && arr.length >= limit) {
+            arr.push(arr.splice(limit - 1).join(separator));
+        }
+
+        return arr;
+    },
+
+
+    /**
      * Join array elements with glue string - PHP implode alike
      *
      * @category Array
@@ -2027,30 +2089,23 @@ var arrayHelpers = {
 
 
     /**
-     * Split array elements by separator - PHP implode alike
+     * Returns all indices of val in an array. If val never occurs, returns [].
      *
-     * @category Array
-     * @param {String} str - String to split
-     * @param {string} separator - The separator
-     * @param {Number} limit - Limit splitted elements
-     * @return {Array} The array with values
+     * @param  {Array}   arr   The array.
+     * @param  {Mix}     val   Value to find.
+     * @returns {Array}        Array with indexes.
      * @example
-     *     explode('a', '.', 2); // ['a']
-     *     explode('a.b', '.', 2); // ['a', 'b']
-     *     explode('a.b.c', '.', 2); // ['a', 'b.c']
+     *     const arr = ['foo', 'bar', 'baz', 'foz', 'foo'];
+     *     const arr2 = [1, 2, 4, 7, 2, 8, 6, 2, 6, 8];
+     *
+     *     indexOfAll(arr, 'foo') // [0, 4]
+     *     indexOfAll(arr, 'bar') // [1]
+     *     indexOfAll(arr2, 2) // [1, 4, 7]
      */
-    explode: function explode(str, separator, limit) {
-        if (!validateHelpers.isString(str)) {
-            throw new Error('\'str\' must be a String');
-        }
-
-        var arr = str.split(separator);
-
-        if (limit !== undefined && arr.length >= limit) {
-            arr.push(arr.splice(limit - 1).join(separator));
-        }
-
-        return arr;
+    indexOfAll: function indexOfAll(arr, val) {
+        return arr.reduce(function (acc, el, i) {
+            return el === val ? [].concat(toConsumableArray(acc), [i]) : acc;
+        }, []);
     },
 
 
@@ -2211,7 +2266,7 @@ var numberHelpers = {
 
         // Make sure value is a number
         number = function (num) {
-            if (!validateHelpers.isNumber(num)) {
+            if (typeof num !== 'number') {
                 throw new Error('Input value is not a number');
             }
 
@@ -2279,18 +2334,23 @@ var numberHelpers = {
      *     toNumber('123.456') // 123.456
      */
     toNumber: function toNumber(value) {
+        var _this = this;
+
+        if (validateHelpers.isArray(value)) {
+            return value.map(function (a) {
+                return _this.toNumber(a);
+            });
+        }
+
         var number = parseFloat(value);
+
         if (number === undefined) {
             return value;
         }
 
-        if (number.toString().length !== value.toString().length) {
+        if (number.toString().length !== value.toString().length && !validateHelpers.isNumeric(value)) {
             return value;
         }
-
-        // if ( validateHelpers.isArray(value) ) {
-        //     return this.toNumber(param.map((a) => num(a)));
-        // }
 
         return Number.isNaN(number) ? value : number;
     }
@@ -2365,6 +2425,42 @@ var objectHelpers = {
         return path.split('.').reduce(function (acc, part) {
             return acc && acc[part];
         }, obj);
+    },
+
+
+    /**
+     * Group an array of objects by same properties value
+     * Returns new object with a key grouped values
+     *
+     * @param  {Array}   item       An array of objects
+     * @param  {String}  key        The key where the values are grouped
+     * @param  {Boolean} camelize   Camlize key (e.g. 'John Smith' or 'john-smith' turn into johnSmith)
+     * @returns {Object}
+     * @example
+     *     const objToGroup = [
+     *         { name: 'John', age: 20 },
+     *         { name: 'Mary', age: 20 },
+     *         { name: 'Smith', age: 18 },
+     *         { name: 'John', age: 22 }
+     *     ];
+     *
+     *     groupObjectByValue(objToGroup, 'age') // { 18: [{ name: 'Smith', age: 18 }], 20: [{ name: 'John', age: 20 }, { name: 'Mary', age: 20 }], 22: { name: 'John', age: 22 } }
+     *     groupObjectByValue(objToGroup, 'name', true) // { john: [{ name: 'John', age: 22 }, { name: 'John', age: 20 }], mary: [{ name: 'Mary', age: 20 }], smith: [{ name: 'Smith', age: 18 }] }
+     */
+    groupObjectByValue: function groupObjectByValue(item, key) {
+        var camelize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        if (!validateHelpers.isArray(item)) {
+            throw new Error('\'item\' must be an array of objects');
+        }
+
+        var grouped = item.reduce(function (r, a) {
+            r[a[key]] = r[a[key]] || [];
+            r[a[key]].push(a);
+            return r;
+        }, Object.create(null));
+
+        return camelize ? globalHelpers.camelize(grouped) : grouped;
     },
 
 
@@ -2513,6 +2609,28 @@ var objectHelpers = {
         return Object.keys(obj).map(function (key) {
             return obj[key];
         });
+    },
+
+
+    /**
+     * Replaces the names of multiple object keys with the values provided.
+     *
+     * @param  {Object}   obj       The plain object
+     * @param  {Object}   keysMap   Object with key and value to replace
+     * @returns {Object}
+     * @example
+     *     const obj = { name: 'John', surename: 'Smith', age: 20 };
+     *     renameKeys(obj, { name: 'firstName', surename: 'lastName' });
+     *     //=> { firstName: 'John', lastName: 'Smith', age: 20 }
+     */
+    renameKeys: function renameKeys(obj, keysMap) {
+        if (!validateHelpers.isPlainObject(obj)) {
+            throw new Error('\'obj\' must be an plain object');
+        }
+
+        return Object.keys(obj).reduce(function (acc, key) {
+            return _extends({}, acc, defineProperty({}, keysMap[key] || key, obj[key]));
+        }, {});
     }
 };
 
@@ -2770,14 +2888,24 @@ var GlobalHelpers = function () {
             return globalHelpers.getUrlParameter(name, entryPoint);
         }
     }, {
-        key: 'implode',
-        value: function implode(pieces, glue) {
-            return arrayHelpers.implode(pieces, glue);
+        key: 'groupObjectByValue',
+        value: function groupObjectByValue(obj, key, camelize) {
+            return objectHelpers.groupObjectByValue(obj, key, camelize);
         }
     }, {
         key: 'explode',
         value: function explode(str, separator, limit) {
             return arrayHelpers.explode(str, separator, limit);
+        }
+    }, {
+        key: 'implode',
+        value: function implode(pieces, glue) {
+            return arrayHelpers.implode(pieces, glue);
+        }
+    }, {
+        key: 'indexOfAll',
+        value: function indexOfAll(arr, val) {
+            return arrayHelpers.indexOfAll(arr, val);
         }
     }, {
         key: 'length',
@@ -2825,6 +2953,11 @@ var GlobalHelpers = function () {
             return stringHelpers.removeAccent(str);
         }
     }, {
+        key: 'renameKeys',
+        value: function renameKeys(obj, keysMap) {
+            return objectHelpers.renameKeys(obj, keysMap);
+        }
+    }, {
         key: 'resizeImageByRatio',
         value: function resizeImageByRatio(type, newValue, aspectRatio, decimals) {
             return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
@@ -2858,6 +2991,11 @@ var GlobalHelpers = function () {
         key: 'stripHttp',
         value: function stripHttp(url) {
             return globalHelpers.stripHttp(url);
+        }
+    }, {
+        key: 'stripTags',
+        value: function stripTags(input, allowed) {
+            return globalHelpers.stripTags(input, allowed);
         }
     }, {
         key: 'strCompact',
@@ -2925,6 +3063,8 @@ var locationHelpers = {
      * Get user location by HTML5 Geolocate API and translate coordinates to
      * Brazilian State, City and Region
      *
+     * @param {Boolean}   cache     Save user coordinates into localstorage
+     * @param {Object}    storage   Store2 lib instance
      * @return {Promise}  When success, response are an object with State, City, Region and user Coordinates
      * @example
      *     locationHelpers.getCityState()
@@ -3012,8 +3152,6 @@ var locationHelpers = {
     filteredRegion: function filteredRegion(state) {
         var _this2 = this;
 
-        this._validateStateInitials(state);
-
         var filteredRegion = '';
 
         var _loop = function _loop(region) {
@@ -3043,8 +3181,6 @@ var locationHelpers = {
      *     locationHelpers.filteredState('SP') // {initials: 'SP', name: 'São Paulo', region: 'Sudeste'}
      */
     filteredState: function filteredState(state) {
-        this._validateStateInitials(state);
-
         return objectHelpers.objectSearch(this._stateMap, { name: state }, true);
     },
     getStates: function getStates() {
@@ -3052,19 +3188,6 @@ var locationHelpers = {
     },
     getRegions: function getRegions() {
         return this._regionMap;
-    },
-
-
-    /**
-     * Validate if state is an initials
-     *
-     * @param  {String} state State to validate
-     * @return {Error}        Return an error if state not an initials
-     */
-    _validateStateInitials: function _validateStateInitials(state) {
-        if (state.length < 2) {
-            throw new Error('\'state\' must be two letters. e.g. \'SP\' or full state name');
-        }
     },
 
 
@@ -3161,7 +3284,7 @@ var Utilify = function Utilify() {
    * JS Cookies
    * @type {Object}
    */
-  this.cookies = init(function () {});
+  this.cookies = initCookies(function () {});
 };
 
 export default Utilify;

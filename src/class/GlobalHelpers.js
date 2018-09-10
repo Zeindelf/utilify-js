@@ -1,10 +1,10 @@
 
-import arrayHelpers from './../utils/array-helpers.js';
-import globalHelpers from './../utils/global-helpers.js';
-import numberHelpers from './../utils/number-helpers.js';
-import objectHelpers from './../utils/object-helpers.js';
-import stringHelpers from './../utils/string-helpers.js';
-import validateHelpers from './../utils/validate-helpers.js';
+import arrayHelpers from '../utils/array-helpers';
+import globalHelpers from '../utils/global-helpers';
+import numberHelpers from '../utils/number-helpers';
+import objectHelpers from '../utils/object-helpers';
+import stringHelpers from '../utils/string-helpers';
+import validateHelpers from '../utils/validate-helpers';
 
 /**
  * Create a GlobalHelpers class
@@ -193,12 +193,20 @@ class GlobalHelpers {
         return globalHelpers.getUrlParameter(name, entryPoint);
     }
 
-    implode(pieces, glue) {
-        return arrayHelpers.implode(pieces, glue);
+    groupObjectByValue(obj, key, camelize) {
+        return objectHelpers.groupObjectByValue(obj, key, camelize);
     }
 
     explode(str, separator, limit) {
         return arrayHelpers.explode(str, separator, limit);
+    }
+
+    implode(pieces, glue) {
+        return arrayHelpers.implode(pieces, glue);
+    }
+
+    indexOfAll(arr, val) {
+        return arrayHelpers.indexOfAll(arr, val);
     }
 
     length(item) {
@@ -237,6 +245,10 @@ class GlobalHelpers {
         return stringHelpers.removeAccent(str);
     }
 
+    renameKeys(obj, keysMap) {
+        return objectHelpers.renameKeys(obj, keysMap);
+    }
+
     resizeImageByRatio(type, newValue, aspectRatio, decimals) {
         return globalHelpers.resizeImageByRatio(type, newValue, aspectRatio, decimals);
     }
@@ -263,6 +275,10 @@ class GlobalHelpers {
 
     stripHttp(url) {
         return globalHelpers.stripHttp(url);
+    }
+
+    stripTags(input, allowed) {
+        return globalHelpers.stripTags(input, allowed);
     }
 
     strCompact(str) {
