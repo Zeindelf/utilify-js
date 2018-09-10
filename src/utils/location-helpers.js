@@ -121,7 +121,7 @@ export default {
      *     locationHelpers.filteredState('SP') // {initials: 'SP', name: 'São Paulo', region: 'Sudeste'}
      */
     filteredState(state) {
-        return objectHelpers.objectSearch(this._stateMap, { name: state }, true);
+        return objectHelpers.objectSearch(this._stateMap, {name: state}, true);
     },
 
     getStates() {
