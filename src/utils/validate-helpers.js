@@ -53,6 +53,42 @@ export default {
         return this.isString(value) && value.length === 1;
     },
 
+    isCnpj(value) {
+        const stripped = this._stripNumber(value);
+        const equalDigits = this._verifierEqualDigits(stripped);
+
+        // CNPJ must be defined
+        // CNPJ must have 14 chars
+        // CNPJ doesn't contains equal digits
+        if ( !stripped || stripped.length !== 14 || equalDigits ) {
+            return false;
+        }
+
+        let numbers = stripped.substr(0, 12);
+        numbers += this._verifierCnpjDigit(numbers);
+        numbers += this._verifierCnpjDigit(numbers);
+
+        return numbers.substr(-2) === stripped.substr(-2);
+    },
+
+    isCpf(value) {
+        const stripped = this._stripNumber(value);
+        const equalDigits = this._verifierEqualDigits(stripped);
+
+        // CPF must be defined
+        // CPF must have 11 chars
+        // CPF doesn't contains equal digits
+        if ( !stripped || stripped.length !== 11 || equalDigits ) {
+            return false;
+        }
+
+        let numbers = stripped.substr(0, 9);
+        numbers += this._verifierCpfDigit(numbers);
+        numbers += this._verifierCpfDigit(numbers);
+
+        return numbers.substr(-2) === stripped.substr(-2);
+    },
+
     /**
      * is a given value Date Object?
      *
@@ -316,5 +352,47 @@ export default {
      */
     isUndefined(value) {
         return value === undefined;
+    },
+
+    _verifierCpfDigit(numbers) {
+        numbers = numbers
+            .split('')
+            .map((number) => parseInt(number, 10));
+
+        const modulus = numbers.length + 1;
+        const multiplied = numbers.map((number, index) => number * (modulus - index));
+        const mod = multiplied.reduce((buffer, number) => buffer + number) % 11;
+
+        return (mod < 2 ? 0 : 11 - mod);
+    },
+
+    _verifierCnpjDigit(numbers) {
+        let index = 2;
+        const reverse = numbers.split('').reduce((buffer, number) => [parseInt(number, 10)].concat(buffer), []);
+
+        const sum = reverse.reduce((buffer, number) => {
+            buffer += number * index;
+            index = (index === 9 ? 2 : index + 1);
+
+            return buffer;
+        }, 0);
+
+        const mod = sum % 11;
+
+        return (mod < 2 ? 0 : 11 - mod);
+    },
+
+    _stripNumber(number) {
+        return (number || '').toString().replace(/[^0-9]/g, '');
+    },
+
+    _verifierEqualDigits(number) {
+        for ( let i = 0, len = number.length; i < len - 1; i++ ) {
+            if ( number[i] !== number[i + 1] ) {
+                return false;
+            }
+        }
+
+        return true;
     },
 };

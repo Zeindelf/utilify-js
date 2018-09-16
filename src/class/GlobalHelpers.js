@@ -34,6 +34,14 @@ class GlobalHelpers {
         return validateHelpers.isChar(value);
     }
 
+    isCnpj(value) {
+        return validateHelpers.isCnpj(value);
+    }
+
+    isCpf(value) {
+        return validateHelpers.isCpf(value);
+    }
+
     isDate(value) {
         return validateHelpers.isDate(value);
     }
