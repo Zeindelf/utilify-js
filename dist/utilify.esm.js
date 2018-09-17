@@ -1,12 +1,12 @@
 
 /*@preserve
- * Utilify.js v0.10.0
+ * Utilify.js v0.10.1
  * https://github.com/zeindelf/utilify-js
  *
  * Copyright (c) 2017-2018 Zeindelf
  * Released under the MIT license
  *
- * Date: 2018-09-16T19:56:30.042Z
+ * Date: 2018-09-17T18:11:50.467Z
  */
 
 /**
@@ -2430,7 +2430,7 @@ var numberHelpers = {
             return value;
         }
 
-        return Number.isNaN(number) ? value : number;
+        return validateHelpers.isNumber(number) ? value : number;
     }
 };
 
@@ -3342,7 +3342,7 @@ var Utilify = function Utilify() {
    * Version
    * @type {String}
    */
-  this.version = '0.10.0';
+  this.version = '0.10.1';
 
   /**
    * Package name

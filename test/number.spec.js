@@ -30,8 +30,6 @@ describe('Number Methods', () => {
     const numberMilifyP = globalHelpers.milify(numberToFormatP);
     const numberMilifyE = globalHelpers.milify(numberToFormatE);
 
-    const toNumber = globalHelpers.toNumber(convertNumber);
-
     it('number format', (done) => {
         expect(numberFormatK).to.equal('1.000');
         expect(numberFormatM).to.equal('1.000.000');
@@ -49,11 +47,6 @@ describe('Number Methods', () => {
         expect(numberMilifyT).to.equal('1T');
         expect(numberMilifyP).to.equal('1P');
         expect(numberMilifyE).to.equal('1E');
-        done();
-    });
-
-    it('convert to number', (done) => {
-        expect(toNumber).to.equal(123.123);
         done();
     });
 });

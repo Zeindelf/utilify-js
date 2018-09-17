@@ -94,6 +94,6 @@ export default {
             return value;
         }
 
-        return Number.isNaN(number) ? value : number;
+        return validateHelpers.isNumber(number) ? value : number;
     },
 };
